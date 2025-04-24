@@ -1,0 +1,20 @@
+[project]
+name = "filesystem"
+version = "0.1.0"
+description = "MCP server for Mac filesystem analysis and disk cleanup"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=0.2.0",
+    "psutil>=5.9.0",
+    "send2trash>=1.8.0",
+    "humanize>=4.0.0",
+    "httpx>=0.24.0"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+filesystem-mcp = "filesystem:main"
