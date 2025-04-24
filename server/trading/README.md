@@ -29,14 +29,31 @@ This modular design allows for:
 - Simple extension to support additional brokerages
 - Better code organization and readability
 
+
 ## Installation
+
+First, ensure you have uv installed and properly configured:
+
+```bash
+# Check uv version
+uv --version
+
+# Configure uv (recommended settings)
+uv config
+```
+
+Then install the dependencies:
 
 ```bash
 # Install dependencies
 uv add mcp httpx pandas numpy pyetrade python-dotenv pydantic
 # Or install the package directly
 uv add -e .
+
+# Generate requirements.txt (for compatibility)
+uv pip compile requirements.in -o requirements.txt
 ```
+
 
 ## Usage
 
@@ -137,6 +154,14 @@ For thorough testing, you can use this sequence of commands:
 5. Analyze portfolio: `uv run cli.py portfolio`
 6. Watch your stocks: `uv run cli.py watch AAPL MSFT --interval 30`
 
+### Running Automated Tests
+
+To run all unit tests:
+
+```bash
+uv run pytest
+```
+
 ### Configuration
 
 Before using the trading MCP server, you need to set up your configuration:
@@ -155,6 +180,9 @@ RISK_MAX_POSITION_SIZE=5000  # Maximum $ per position
 RISK_MAX_DAILY_LOSS=1000  # Maximum daily loss allowed
 DATA_REQUEST_TIMEOUT=10.0  # Timeout for market data requests in seconds
 USE_MOCK_DATA=FALSE  # Use mock data instead of real market data
+
+UV_CACHE_DIR=.cache/uv  # Custom cache directory for uv
+UV_INDEX_URL=https://pypi.org/simple  # PyPI index URL
 ```
 
 2. Set up your paper trading account with initial values:
@@ -205,12 +233,33 @@ To enable live trading, set `TRADING_MODE=live` in your `.env` file, but exercis
 ## Requirements
 
 - Python 3.10 or higher
+- uv 0.5.24 or higher
 - E*TRADE API credentials (or other supported brokerage)
 - Internet connection for real-time market data
 
 ## Documentation
 
 For detailed requirements and specifications, see [REQUIREMENTS.md](./REQUIREMENTS.md)
+
+## Development Setup
+
+### UV Configuration
+
+For development, we recommend the following uv settings:
+
+```bash
+# Set up development environment
+uv venv  # Create virtual environment
+source .venv/bin/activate
+
+# Configure uv for development
+uv pip compile requirements.dev.in -o requirements.dev.txt  # Generate dev requirements
+uv pip compile requirements.test.in -o requirements.test.txt  # Generate test requirements
+
+# Install development dependencies
+uv pip sync requirements.dev.txt requirements.test.txt
+```
+
 
 ## Extending the System
 

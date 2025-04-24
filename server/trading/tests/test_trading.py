@@ -8,13 +8,14 @@ import asyncio
 from unittest.mock import patch, MagicMock
 from datetime import datetime
 from typing import Dict, Any
+import pytest
 
 # Import the modules to test
 from trading import (
     get_quote, get_account_summary, submit_order, analyze_portfolio,
     setup_paper_account, get_historical_data
 )
-from models import OrderAction, OrderType, Account, Position, Order
+from models import OrderAction, OrderType, PaperAccount, Position, Order
 
 
 class TestTrading(unittest.TestCase):
@@ -33,6 +34,7 @@ class TestTrading(unittest.TestCase):
         os.environ.update(self.original_env)
     
     @patch('market_data.MarketData.get_quote')
+    @pytest.mark.asyncio
     async def test_get_quote(self, mock_get_quote):
         """Test the get_quote function."""
         # Configure mock
@@ -56,6 +58,7 @@ class TestTrading(unittest.TestCase):
         mock_get_quote.assert_called_once_with('AAPL', use_mock=False)
     
     @patch('paper_trading.PaperTradingService.load_account')
+    @pytest.mark.asyncio
     async def test_get_account_summary(self, mock_load_account):
         """Test the get_account_summary function."""
         # Create a mock account
@@ -112,6 +115,7 @@ class TestTrading(unittest.TestCase):
     @patch('paper_trading.PaperTradingService.submit_order')
     @patch('market_data.MarketData.get_quote')
     @patch('paper_trading.PaperTradingService.load_account')
+    @pytest.mark.asyncio
     async def test_submit_order(self, mock_load, mock_quote, mock_submit, mock_create):
         """Test the submit_order function."""
         # Configure mocks
@@ -162,6 +166,7 @@ class TestTrading(unittest.TestCase):
     
     @patch('paper_trading.PaperTradingService.analyze_portfolio')
     @patch('paper_trading.PaperTradingService.load_account')
+    @pytest.mark.asyncio
     async def test_analyze_portfolio(self, mock_load, mock_analyze):
         """Test the analyze_portfolio function."""
         # Configure mocks
@@ -188,6 +193,7 @@ class TestTrading(unittest.TestCase):
         mock_analyze.assert_called_once_with(mock_account)
     
     @patch('market_data.MarketData.get_historical_data')
+    @pytest.mark.asyncio
     async def test_get_historical_data(self, mock_get_historical):
         """Test the get_historical_data function."""
         # Configure mock
@@ -217,6 +223,7 @@ class TestTrading(unittest.TestCase):
         )
     
     @patch('paper_trading.PaperTradingService.setup_account')
+    @pytest.mark.asyncio
     async def test_setup_paper_account(self, mock_setup):
         """Test the setup_paper_account function."""
         # Configure mock

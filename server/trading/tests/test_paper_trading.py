@@ -9,11 +9,16 @@ import asyncio
 from unittest.mock import patch, MagicMock, mock_open
 from datetime import datetime
 from typing import Dict, Any
+from pathlib import Path
+import pytest
 
 # Import the modules to test
 from paper_trading import PaperTradingService
-from models import OrderAction, OrderType, Account, Position, Order
+import paper_trading
+from models import OrderAction, OrderType, PaperAccount, Position, Order
 
+# Change this line at the top of the file
+DEFAULT_TIMEOUT = float(os.getenv("DATA_REQUEST_TIMEOUT", "5.0"))  # seconds
 
 class TestPaperTradingService(unittest.TestCase):
     """Test cases for the PaperTradingService class."""
@@ -22,23 +27,22 @@ class TestPaperTradingService(unittest.TestCase):
         """Set up test environment."""
         # Create a temp path for test account data
         self.temp_account_path = "/tmp/test_paper_account.json"
-        self.original_account_path = PaperTradingService.ACCOUNT_FILE_PATH
-        PaperTradingService.ACCOUNT_FILE_PATH = self.temp_account_path
+        self.original_account_path = paper_trading.PAPER_ACCOUNT_FILE
+        paper_trading.PAPER_ACCOUNT_FILE = self.temp_account_path
         
         # Create a test account
-        self.test_account = Account(
+        self.test_account = PaperAccount(
             cash=100000.0,
             positions={},
-            transactions=[],
-            daily_pl={},
-            created_at=datetime.now().isoformat(),
-            updated_at=datetime.now().isoformat()
+            orders={},
+            trades=[],
+            daily_pl={}
         )
     
     def tearDown(self):
         """Clean up the test environment."""
         # Restore original path
-        PaperTradingService.ACCOUNT_FILE_PATH = self.original_account_path
+        paper_trading.PAPER_ACCOUNT_FILE = self.original_account_path
         
         # Remove test file if it exists
         if os.path.exists(self.temp_account_path):
@@ -54,9 +58,9 @@ class TestPaperTradingService(unittest.TestCase):
         # Assertions
         self.assertEqual(account.cash, 50000.0)
         self.assertEqual(account.positions, {})
-        self.assertEqual(account.transactions, [])
-        self.assertIsNotNone(account.created_at)
-        self.assertIsNotNone(account.updated_at)
+        self.assertEqual(account.orders, {})
+        self.assertEqual(account.trades, [])
+        self.assertIsNotNone(account)
         
         # Verify file operations
         mock_file.assert_called_with(self.temp_account_path, 'w')
@@ -64,7 +68,7 @@ class TestPaperTradingService(unittest.TestCase):
     
     @patch('json.load')
     @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists', return_value=True)
+    @patch('pathlib.Path.exists', return_value=True)
     def test_load_account_existing(self, mock_exists, mock_file, mock_load):
         """Test loading an existing account."""
         # Configure mocks
@@ -81,20 +85,20 @@ class TestPaperTradingService(unittest.TestCase):
                     'unrealized_pl_percent': 3.33
                 }
             },
-            'transactions': [
+            'orders': {},
+            'trades': [
                 {
-                    'id': '123',
-                    'timestamp': datetime.now().isoformat(),
+                    'trade_id': 'trade-123',
+                    'order_id': 'order-456',
                     'symbol': 'AAPL',
                     'action': 'BUY',
                     'quantity': 10,
                     'price': 150.0,
-                    'total': 1500.0
+                    'timestamp': datetime.now().isoformat(),
+                    'commission': 0.0
                 }
             ],
-            'daily_pl': {},
-            'created_at': datetime.now().isoformat(),
-            'updated_at': datetime.now().isoformat()
+            'daily_pl': {}
         }
         
         # Call the method
@@ -104,7 +108,7 @@ class TestPaperTradingService(unittest.TestCase):
         self.assertEqual(account.cash, 50000.0)
         self.assertEqual(len(account.positions), 1)
         self.assertEqual(account.positions['AAPL'].quantity, 10)
-        self.assertEqual(len(account.transactions), 1)
+        self.assertEqual(len(account.trades), 1)
     
     @patch('os.path.exists', return_value=False)
     def test_load_account_not_existing(self, mock_exists):
@@ -125,6 +129,7 @@ class TestPaperTradingService(unittest.TestCase):
     
     @patch('paper_trading.PaperTradingService.load_account')
     @patch('paper_trading.PaperTradingService.save_account')
+    @pytest.mark.asyncio
     async def test_create_order(self, mock_save, mock_load):
         """Test creating a new order."""
         # Configure mock
@@ -148,6 +153,7 @@ class TestPaperTradingService(unittest.TestCase):
     
     @patch('paper_trading.PaperTradingService.load_account')
     @patch('paper_trading.PaperTradingService.save_account')
+    @pytest.mark.asyncio
     async def test_submit_buy_order(self, mock_save, mock_load):
         """Test submitting a buy order."""
         # Configure mocks
@@ -177,15 +183,16 @@ class TestPaperTradingService(unittest.TestCase):
         self.assertEqual(self.test_account.cash, 100000.0 - 1500.0)
         self.assertIn('AAPL', self.test_account.positions)
         self.assertEqual(self.test_account.positions['AAPL'].quantity, 10)
-        self.assertEqual(len(self.test_account.transactions), 1)
+        self.assertEqual(len(self.test_account.trades), 1)
         mock_save.assert_called_once()
     
     @patch('paper_trading.PaperTradingService.load_account')
     @patch('paper_trading.PaperTradingService.save_account')
+    @pytest.mark.asyncio
     async def test_submit_sell_order(self, mock_save, mock_load):
         """Test submitting a sell order."""
         # Set up an account with an existing position
-        account = Account(
+        account = PaperAccount(
             cash=100000.0,
             positions={
                 'AAPL': Position(
@@ -198,10 +205,9 @@ class TestPaperTradingService(unittest.TestCase):
                     unrealized_pl_percent=6.67
                 )
             },
-            transactions=[],
-            daily_pl={},
-            created_at=datetime.now().isoformat(),
-            updated_at=datetime.now().isoformat()
+            orders={},
+            trades=[],
+            daily_pl={}
         )
         mock_load.return_value = account
         
@@ -228,21 +234,21 @@ class TestPaperTradingService(unittest.TestCase):
         self.assertTrue(result['success'])
         self.assertEqual(account.cash, 100000.0 + 800.0)
         self.assertEqual(account.positions['AAPL'].quantity, 5)
-        self.assertEqual(len(account.transactions), 1)
+        self.assertEqual(len(account.trades), 1)
         mock_save.assert_called_once()
     
     @patch('paper_trading.PaperTradingService.load_account')
     @patch('paper_trading.PaperTradingService.save_account')
+    @pytest.mark.asyncio
     async def test_insufficient_funds(self, mock_save, mock_load):
         """Test order failure due to insufficient funds."""
         # Configure mock with low cash balance
-        account = Account(
+        account = PaperAccount(
             cash=1000.0,  # Not enough for the order
             positions={},
-            transactions=[],
-            daily_pl={},
-            created_at=datetime.now().isoformat(),
-            updated_at=datetime.now().isoformat()
+            orders={},
+            trades=[],
+            daily_pl={}
         )
         mock_load.return_value = account
         
@@ -270,15 +276,16 @@ class TestPaperTradingService(unittest.TestCase):
         self.assertIn('insufficient funds', result['message'].lower())
         self.assertEqual(account.cash, 1000.0)  # Cash unchanged
         self.assertEqual(len(account.positions), 0)
-        self.assertEqual(len(account.transactions), 0)
+        self.assertEqual(len(account.trades), 0)
         mock_save.assert_not_called()
     
     @patch('paper_trading.PaperTradingService.load_account')
     @patch('paper_trading.PaperTradingService.save_account')
+    @pytest.mark.asyncio
     async def test_insufficient_shares(self, mock_save, mock_load):
         """Test order failure due to insufficient shares for selling."""
         # Configure mock with a position that has fewer shares than the sell order
-        account = Account(
+        account = PaperAccount(
             cash=100000.0,
             positions={
                 'AAPL': Position(
@@ -291,10 +298,9 @@ class TestPaperTradingService(unittest.TestCase):
                     unrealized_pl_percent=6.67
                 )
             },
-            transactions=[],
-            daily_pl={},
-            created_at=datetime.now().isoformat(),
-            updated_at=datetime.now().isoformat()
+            orders={},
+            trades=[],
+            daily_pl={}
         )
         mock_load.return_value = account
         
@@ -322,13 +328,14 @@ class TestPaperTradingService(unittest.TestCase):
         self.assertIn('insufficient shares', result['message'].lower())
         self.assertEqual(account.cash, 100000.0)  # Cash unchanged
         self.assertEqual(account.positions['AAPL'].quantity, 5)  # Position unchanged
-        self.assertEqual(len(account.transactions), 0)
+        self.assertEqual(len(account.trades), 0)
         mock_save.assert_not_called()
     
+    @pytest.mark.asyncio
     async def test_update_positions(self):
         """Test updating positions with current prices."""
         # Create an account with positions
-        account = Account(
+        account = PaperAccount(
             cash=100000.0,
             positions={
                 'AAPL': Position(
@@ -350,10 +357,9 @@ class TestPaperTradingService(unittest.TestCase):
                     unrealized_pl_percent=0.0
                 )
             },
-            transactions=[],
-            daily_pl={},
-            created_at=datetime.now().isoformat(),
-            updated_at=datetime.now().isoformat()
+            orders={},
+            trades=[],
+            daily_pl={}
         )
         
         # Current prices to update
@@ -381,10 +387,11 @@ class TestPaperTradingService(unittest.TestCase):
     
     @patch('paper_trading.PaperTradingService.load_account')
     @patch('paper_trading.PaperTradingService.save_account')
+    @pytest.mark.asyncio
     async def test_analyze_portfolio(self, mock_save, mock_load):
         """Test portfolio analysis."""
         # Create an account with positions
-        account = Account(
+        account = PaperAccount(
             cash=50000.0,
             positions={
                 'AAPL': Position(
@@ -406,10 +413,9 @@ class TestPaperTradingService(unittest.TestCase):
                     unrealized_pl_percent=10.0
                 )
             },
-            transactions=[],
-            daily_pl={},
-            created_at=datetime.now().isoformat(),
-            updated_at=datetime.now().isoformat()
+            orders={},
+            trades=[],
+            daily_pl={}
         )
         mock_load.return_value = account
         

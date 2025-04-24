@@ -29,7 +29,8 @@ class PaperTradingService:
             return PaperAccount.model_validate(data)
         else:
             logger.info("No paper account found. Creating new account.")
-            return PaperAccount()
+            # Use setup_account to allow test patching and cash customization
+            return PaperTradingService.setup_account()
     
     @staticmethod
     def save_account(account: PaperAccount) -> bool:

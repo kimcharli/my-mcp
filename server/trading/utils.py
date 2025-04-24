@@ -6,7 +6,7 @@ import json
 import uuid
 import logging
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 logger = logging.getLogger("trading-mcp.utils")
 
@@ -20,17 +20,20 @@ def format_money(amount: float) -> str:
         return f"-${abs(amount):.2f}"
     return f"${amount:.2f}"
 
-def load_json_file(file_path: Path, default: Any = None) -> Any:
+def load_json_file(path: Any, default: Any = None) -> Any:
     """Load data from a JSON file."""
     try:
-        if not file_path.exists():
-            logger.info(f"File not found: {file_path}")
+        # Ensure path is a Path object
+        if isinstance(path, str):
+            path = Path(path)
+        if not path.exists():
+            logger.info(f"File not found: {path}")
             return default
         
-        with open(file_path, "r") as f:
+        with open(path, "r") as f:
             return json.load(f)
     except Exception as e:
-        logger.error(f"Error loading JSON file {file_path}: {e}")
+        logger.error(f"Error loading JSON file {path}: {e}")
         return default
 
 def save_json_file(file_path: Path, data: Any) -> bool:

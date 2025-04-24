@@ -8,6 +8,7 @@ import asyncio
 import pandas as pd
 from unittest.mock import patch, MagicMock
 from typing import Dict, Any
+import pytest
 
 # Import the module to test
 from market_data import MarketData
@@ -35,6 +36,7 @@ class TestMarketData(unittest.TestCase):
         self.assertEqual(DEFAULT_TIMEOUT, 5.0)
     
     @patch('yfinance.Ticker')
+    @pytest.mark.asyncio
     async def test_get_quote_mock(self, mock_ticker):
         """Test the get_quote method with mock data."""
         # Configure mock
@@ -60,6 +62,7 @@ class TestMarketData(unittest.TestCase):
         self.assertIn('change_percent', quote)
         
     @patch('yfinance.Ticker')
+    @pytest.mark.asyncio
     async def test_get_quote_real(self, mock_ticker):
         """Test the get_quote method with simulated real data."""
         # Configure mock for yfinance.Ticker
@@ -89,6 +92,7 @@ class TestMarketData(unittest.TestCase):
         self.assertEqual(quote['pe_ratio'], 25.5)
     
     @patch('yfinance.Ticker')
+    @pytest.mark.asyncio
     async def test_get_quote_error(self, mock_ticker):
         """Test error handling in get_quote."""
         # Configure mock to raise an exception
@@ -99,6 +103,7 @@ class TestMarketData(unittest.TestCase):
             await MarketData.get_quote('AAPL')
     
     @patch('yfinance.Ticker')
+    @pytest.mark.asyncio
     async def test_get_historical_data(self, mock_ticker):
         """Test the get_historical_data method."""
         # Configure mock
@@ -139,6 +144,7 @@ class TestMarketData(unittest.TestCase):
         self.assertAlmostEqual(data['change_percent'], (29 / 102) * 100)
     
     @patch('yfinance.Ticker')
+    @pytest.mark.asyncio
     async def test_get_historical_data_mock(self, mock_ticker):
         """Test the get_historical_data method with mock data."""
         # Test with mock mode

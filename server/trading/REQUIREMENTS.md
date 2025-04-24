@@ -114,6 +114,16 @@ The trading system follows a modular architecture with the following components:
   - `pydantic`: For data validation and settings management
   - Brokerage-specific SDKs (e.g., `pyetrade` for E*TRADE)
 
+### Build Tool Requirements
+- **UV Package Manager**:
+  - Version: 0.5.24 or higher
+  - Required for dependency management and script execution
+  - Configuration files:
+    - `requirements.in`: Primary requirements
+    - `requirements.dev.in`: Development requirements
+    - `requirements.test.in`: Testing requirements
+
+
 ## Modular Design
 The system follows these design principles:
 
@@ -148,6 +158,28 @@ The system follows these design principles:
 - Accurate portfolio and performance tracking
 - Clear distinction between paper and real trading modes
 - Comprehensive error handling and user feedback
+
+
+## Development Environment
+
+### UV Configuration
+The project uses uv for dependency management with the following structure:
+
+1. **Requirements Files**:
+   - `requirements.in`: Primary project dependencies
+   - `requirements.dev.in`: Development tools and utilities
+   - `requirements.test.in`: Testing frameworks and tools
+
+2. **Generated Files**:
+   - `requirements.txt`: Locked production dependencies
+   - `requirements.dev.txt`: Locked development dependencies
+   - `requirements.test.txt`: Locked test dependencies
+
+3. **UV Settings**:
+   - Custom cache directory: `.cache/uv`
+   - Default index: PyPI
+   - Virtual environment: `.venv`
+
 
 ## Development Roadmap
 

@@ -11,7 +11,7 @@ import yfinance as yf
 logger = logging.getLogger("trading-mcp.market_data")
 
 # Constants
-DEFAULT_TIMEOUT = float(os.getenv("DATA_REQUEST_TIMEOUT", "10.0"))  # seconds
+DEFAULT_TIMEOUT = float(os.getenv("DATA_REQUEST_TIMEOUT", "5.0"))  # seconds
 
 
 class MarketData:
