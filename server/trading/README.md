@@ -221,6 +221,15 @@ The MCP server exposes the following tools to AI models:
 - Order validation before submission
 - Risk management limits enforced automatically
 
+### Network and Connectivity Warnings
+
+> **Warning:** Access to Yahoo Finance and other financial data providers may be blocked or restricted by network security solutions such as zScaler, corporate firewalls, or proxies. If you encounter repeated SSL errors, connection errors, or see messages like `Too Many Requests` or `CERTIFICATE_VERIFY_FAILED`, your network may be interfering with traffic to Yahoo Finance.
+>
+> - If you are on a corporate, university, or public network, try switching to a different network (e.g., home Wi-Fi or mobile hotspot).
+> - Some security appliances (e.g., zScaler) can block or inspect HTTPS traffic and may prevent access to financial data APIs.
+> - If you are behind such a firewall, contact your IT administrator or try from a network without these restrictions.
+> - Rate limiting by Yahoo Finance can also cause temporary blocks; waiting or changing your IP may help.
+
 ## Paper vs. Live Trading
 
 This MCP server supports two modes:
