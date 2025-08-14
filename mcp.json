@@ -1,0 +1,48 @@
+{
+  "mcpServers": {
+    "weather": {
+      "command": "/Users/ckim/.pyenv/shims/uv",
+      "args": [
+        "--directory",
+        "/Users/ckim/Projects/my-mcp/server/weather",
+        "run",
+        "weather.py"
+      ]
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
+    },
+    "apstra": {
+      "command": "node",
+      "args": [
+        "/Users/ckim/Projects/ck-apstra-mcp/dist/index.js"
+      ]
+    },
+    "memory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    },
+    "browsermcp": {
+      "command": "npx",
+      "args": ["@browsermcp/mcp@latest"]
+    },
+    "gemini": {
+      "command": "npx",
+      "args": ["-y", "github:kimcharli/mcp-server-gemini"],
+      "env": {
+        "GEMINI_API_KEY": "XXXX"
+      }
+    }
+  }
+}
