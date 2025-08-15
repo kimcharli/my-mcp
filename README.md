@@ -62,6 +62,9 @@ https://github.com/upstash/context7
 
 ```
 "Make a Next.js 14 API route with App Router"
+
+"Create a FastAPI application with async database operations using SQLAlchemy 2.0. use context7”
+
 ```
 
 ## supabase
