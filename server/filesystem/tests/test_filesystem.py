@@ -66,6 +66,16 @@ class TestFilesystemServer(unittest.TestCase):
         self.assertFalse(is_system_file("/Users/test/file.txt"))
         self.assertFalse(is_system_file("/tmp/test"))
 
+    def test_is_safe_path(self):
+        """Test safe path validation."""
+        # Safe paths should return True
+        self.assertTrue(is_safe_path(os.path.expanduser("~")))
+        self.assertTrue(is_safe_path(os.path.join(os.path.expanduser("~"), "test")))
+
+        # Unsafe paths should return False
+        self.assertFalse(is_safe_path("/"))
+        self.assertFalse(is_safe_path("/etc/passwd"))
+
     def test_get_directory_size(self):
         """Test directory size calculation."""
         # Test with temp directory

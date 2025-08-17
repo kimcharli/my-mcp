@@ -42,7 +42,33 @@ class TestCodeReviewSecurity:
                 '-name', '*.ts', '-o', '-name', '*.sh', '-o', 
                 '-name', '*.bat', ')', '-type', 'f'
             ], capture_output=True, text=True)
-            results['root_files'] = result.stdout.strip().split('\n') if result.stdout.strip() else []
+            import re
+
+from security_test_helper import run_security_scan
+
+class TestCodeReviewSecurity:
+    """Test the enhanced security scanning in /ck:code-review command."""
+    
+    def setup_method(self):
+        """Create a temporary test project directory."""
+        self.test_dir = tempfile.mkdtemp()
+        self.original_cwd = os.getcwd()
+        os.chdir(self.test_dir)
+        
+    def teardown_method(self):
+        """Clean up test directory."""
+        os.chdir(self.original_cwd)
+        shutil.rmtree(self.test_dir)
+    
+    def create_test_file(self, filename: str, content: str):
+        """Helper to create test files."""
+        with open(filename, 'w') as f:
+            f.write(content)
+    
+    def run_security_scan_commands(self):
+        """Run the security scan commands from the updated prompt."""
+        return run_security_scan('.')
+
         except Exception as e:
             results['root_files'] = []
         

@@ -1,7 +1,9 @@
+import os
+
 mcp = FastMCP("My App",
         auth_server_provider=MyOAuthServerProvider(),
         auth=AuthSettings(
-            issuer_url="https://myapp.com",
+            issuer_url=os.getenv("ISSUER_URL", "https://myapp.com"),
             revocation_options=RevocationOptions(
                 enabled=True,
             ),

@@ -42,6 +42,45 @@ def detect_server_type(server_path: Path) -> str:
         return "unknown"
 
 
+def _parse_pytest_output(output: str) -> Tuple[int, int, int]:
+    """Parse pytest output to extract test counts and coverage."""
+    passed = 0
+    failed = 0
+    coverage = 0
+    lines = output.split('\n')
+    for line in lines:
+        if " passed" in line and "failed" in line:
+            parts = line.split()
+            for i, part in enumerate(parts):
+                if part == "passed":
+                    passed = int(parts[i-1])
+                elif part == "failed":
+                    failed = int(parts[i-1])
+        elif " passed" in line and "failed" not in line:
+            parts = line.split()
+            for i, part in enumerate(parts):
+                if part == "passed":
+                    passed = int(parts[i-1])
+    for line in lines:
+        if "TOTAL" in line and "%" in line:
+            parts = line.split()
+            for part in parts:
+                if part.endswith("%"):
+                    try:
+                        coverage = int(part.replace("%", ""))
+                    except ValueError:
+                        pass
+    return passed, failed, coverage
+
+def _run_test_commands(commands: List[List[str]], cwd: str) -> Tuple[int, str, str]:
+    """Run a series of test commands until one succeeds."""
+    for cmd in commands:
+        print(f"  Running: {" ".join(cmd)}")
+        exit_code, stdout, stderr = run_command(cmd, cwd)
+        if exit_code == 0:
+            return exit_code, stdout, stderr
+    return 1, "", "All test commands failed."
+
 def run_python_tests(server_path: Path, server_name: str) -> Dict:
     """Run tests for a Python-based MCP server."""
     print(f"\n🧪 Testing {server_name} (Python)...")
@@ -80,44 +119,20 @@ def run_python_tests(server_path: Path, server_name: str) -> Dict:
         ["pytest", "tests/", "-v"]
     ]
     
-    for cmd in test_commands:
-        print(f"  Running: {' '.join(cmd)}")
-        exit_code, stdout, stderr = run_command(cmd, str(server_path))
-        
-        if exit_code == 0:
-            # Parse pytest output for test counts
-            lines = stdout.split('\n')
-            for line in lines:
-                if " passed" in line and "failed" in line:
-                    parts = line.split()
-                    for i, part in enumerate(parts):
-                        if part == "passed":
-                            results["tests_passed"] = int(parts[i-1])
-                        elif part == "failed":
-                            results["tests_failed"] = int(parts[i-1])
-                elif " passed" in line and "failed" not in line:
-                    parts = line.split()
-                    for i, part in enumerate(parts):
-                        if part == "passed":
-                            results["tests_passed"] = int(parts[i-1])
-            
-            # Look for coverage percentage
-            for line in lines:
-                if "TOTAL" in line and "%" in line:
-                    parts = line.split()
-                    for part in parts:
-                        if part.endswith("%"):
-                            try:
-                                results["coverage"] = int(part.replace("%", ""))
-                            except ValueError:
-                                pass
-            break
-        else:
-            results["errors"].append(f"Command failed: {' '.join(cmd)}")
-            if stderr:
-                results["errors"].append(f"Error: {stderr[:500]}")
+    exit_code, stdout, stderr = _run_test_commands(test_commands, str(server_path))
+    
+    if exit_code == 0:
+        passed, failed, coverage = _parse_pytest_output(stdout)
+        results["tests_passed"] = passed
+        results["tests_failed"] = failed
+        results["coverage"] = coverage
+    else:
+        results["errors"].append("All test commands failed.")
+        if stderr:
+            results["errors"].append(f"Error: {stderr[:500]}")
     
     return results
+
 
 
 def run_integration_tests() -> Dict:

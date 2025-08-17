@@ -1,0 +1,5 @@
+# .gemini/commands/ck/code-review.toml
+
+prompt = """
+Perform a comprehensive code review covering structure, quality, security, and maintainability.
+"""

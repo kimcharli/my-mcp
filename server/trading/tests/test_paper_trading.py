@@ -48,6 +48,25 @@ class TestPaperTradingService(unittest.TestCase):
         if os.path.exists(self.temp_account_path):
             os.remove(self.temp_account_path)
     
+    def test_constructor(self):
+        """Test the PaperTradingService constructor."""
+        # Test with default values
+        service = PaperTradingService()
+        self.assertEqual(service.RISK_MAX_POSITION_SIZE, 5000.0)
+        self.assertEqual(service.RISK_MAX_DAILY_LOSS, 1000.0)
+
+        # Test with custom values
+        service = PaperTradingService(risk_max_position_size=10000.0, risk_max_daily_loss=2000.0)
+        self.assertEqual(service.RISK_MAX_POSITION_SIZE, 10000.0)
+        self.assertEqual(service.RISK_MAX_DAILY_LOSS, 2000.0)
+
+        # Test with environment variables
+        os.environ["RISK_MAX_POSITION_SIZE"] = "15000.0"
+        os.environ["RISK_MAX_DAILY_LOSS"] = "2500.0"
+        service = PaperTradingService()
+        self.assertEqual(service.RISK_MAX_POSITION_SIZE, 15000.0)
+        self.assertEqual(service.RISK_MAX_DAILY_LOSS, 2500.0)
+
     @patch('json.dump')
     @patch('builtins.open', new_callable=mock_open)
     def test_setup_account(self, mock_file, mock_dump):

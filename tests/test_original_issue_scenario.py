@@ -6,9 +6,11 @@ This test validates that the updated /ck:code-review command would have caught t
 
 import os
 import tempfile
-import subprocess
+import re
 import shutil
 
+
+from security_test_helper import run_security_scan
 
 def test_original_issue_scenario():
     """
@@ -41,7 +43,7 @@ console.log("Using credentials:", admin, password);
 console.log("Target:", apiEndpoint);
 ''',
             'test-connection.js': '''
-// Connection test script
+# Connection test script
 const credentials = {
     username: "admin",
     password: "admin",
@@ -82,43 +84,8 @@ production_db = "192.168.1.100"
         # Run the security scan commands from updated prompt
         print("\n🔍 Running Enhanced Security Scan...")
         
-        # Step 1: Find executable files in root
-        result = subprocess.run([
-            'find', '.', '-maxdepth', '1', '(',
-            '-name', '*.js', '-o', '-name', '*.py', '-o', 
-            '-name', '*.ts', '-o', '-name', '*.sh', '-o', 
-            '-name', '*.bat', ')', '-type', 'f'
-        ], capture_output=True, text=True)
-        
-        root_files = [f for f in result.stdout.strip().split('\n') if f]
-        print(f"📋 Found {len(root_files)} executable files in root:")
-        for f in root_files:
-            print(f"   ❌ {f}")
-        
-        # Step 2: Credential scan
-        result = subprocess.run([
-            'grep', '-r', '-i', 
-            'password\\|secret\\|token\\|api.*key\\|admin:admin',
-            '--include=*.js', '--include=*.py', '--include=*.json',
-            '.'
-        ], capture_output=True, text=True)
-        
-        credential_matches = [line for line in result.stdout.strip().split('\n') if line]
-        print(f"\n🔐 Found {len(credential_matches)} credential security issues:")
-        for match in credential_matches[:10]:  # Show first 10
-            print(f"   🚨 {match}")
-        
-        # Step 3: Production IP/URL scan
-        result = subprocess.run([
-            'grep', '-r', '-E',
-            '10\\.|192\\.168\\.|https://.*\\.(46|85)\\.',
-            '--include=*.js', '--include=*.py', '.'
-        ], capture_output=True, text=True)
-        
-        network_matches = [line for line in result.stdout.strip().split('\n') if line]
-        print(f"\n🌐 Found {len(network_matches)} production network references:")
-        for match in network_matches[:10]:  # Show first 10
-            print(f"   🚨 {match}")
+        results = run_security_scan('.')
+
         
         # Step 4: File placement validation
         debug_files = [f for f in root_files if 'debug-' in f or 'test-' in f or 'scratch-' in f]

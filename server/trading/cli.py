@@ -70,6 +70,10 @@ def setup_command_arguments() -> argparse.ArgumentParser:
     
     return parser
 
+def clear_screen():
+    """Clears the terminal screen."""
+    print("\033[H\033[J", end="")
+
 async def watch_stocks(symbols: list, interval: int = 60) -> None:
     """Watch stock prices in real-time with periodic updates."""
     try:
@@ -88,7 +92,7 @@ async def watch_stocks(symbols: list, interval: int = 60) -> None:
                     data[symbol] = {"error": str(e)}
             
             # Clear screen and print header
-            os.system('cls' if os.name == 'nt' else 'clear')
+            clear_screen()
             print(f"Stock Watch - {len(symbols)} symbols - Updated at: {asyncio.get_event_loop().time():.0f}")
             print("-" * 80)
             

@@ -1,0 +1,38 @@
+description = "Automated issue resolution with coding standards compliance"
+prompt = """
+Fix the following issue: {{issue_description}}
+
+Follow this issue resolution process:
+
+### 1. Issue Analysis
+- Understand the problem description.
+- Identify affected code components.
+- Determine the root cause and scope.
+- Review related error logs or symptoms.
+
+### 2. Solution Design
+- Plan the fix approach.
+- Consider the impact on existing functionality.
+- Design for maintainability and extensibility.
+- Identify testing requirements.
+
+### 3. Implementation
+- Apply the fix following coding standards.
+- Maintain existing code patterns and conventions.
+- Add appropriate error handling.
+- Include inline documentation as needed.
+
+### 4. Validation
+- Test the fix thoroughly.
+- Verify no regressions are introduced.
+- Check edge cases and error conditions.
+- Ensure compliance with quality standards.
+
+### Coding Standards Compliance
+- Follow established naming conventions.
+- Maintain consistent code formatting.
+- Add appropriate type hints (Python).
+- Include comprehensive error handling.
+- Write clear, self-documenting code.
+- Update related documentation if needed.
+"""

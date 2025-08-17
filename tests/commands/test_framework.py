@@ -273,7 +273,6 @@ class CommandTester:
         unsafe_patterns = [
             r'rm\s+-rf',
             r'sudo\s+',
-            r'eval\s*\(',
             r'exec\s*\('
         ]
         

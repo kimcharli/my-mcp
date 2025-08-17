@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""This script provides a set of tools for managing the local filesystem."""
 from typing import Dict, List, Optional
 import os
 import shutil
@@ -14,6 +15,7 @@ mcp = FastMCP("filesystem")
 
 # Constants for macOS disk cleanup
 USER_HOME = os.path.expanduser("~")
+"""The user's home directory."""
 COMMON_CACHE_DIRS = [
     f"{USER_HOME}/Library/Caches",
     f"{USER_HOME}/Library/Logs",
@@ -21,23 +23,48 @@ COMMON_CACHE_DIRS = [
     "/var/log",
     f"{USER_HOME}/.cache",
 ]
+"""A list of common cache directories on macOS."""
 DOWNLOADS_DIR = f"{USER_HOME}/Downloads"
+"""The user's Downloads directory."""
 TEMP_DIR = "/tmp"
+"""The system's temporary directory."""
 SIZE_THRESHOLD_MB = 100  # Files larger than this will be flagged as large
+"""The minimum size in megabytes for a file to be considered large."""
 
 def format_size(size_bytes: int) -> str:
-    """Format bytes into a human-readable string."""
+    """Formats a size in bytes into a human-readable string.
+
+    Args:
+        size_bytes: The size in bytes.
+
+    Returns:
+        A human-readable string representing the size.
+    """
     return humanize.naturalsize(size_bytes)
 
 def get_creation_time(path: str) -> float:
-    """Get the creation time of a file or directory."""
+    """Gets the creation time of a file or directory.
+
+    Args:
+        path: The path to the file or directory.
+
+    Returns:
+        The creation time as a float, or 0 if the path does not exist.
+    """
     try:
         return os.path.getctime(path)
     except (OSError, FileNotFoundError):
         return 0
 
 def is_system_file(path: str) -> bool:
-    """Check if a file is a system file that shouldn't be removed."""
+    """Checks if a file is a system file that should not be removed.
+
+    Args:
+        path: The path to the file.
+
+    Returns:
+        True if the file is a system file, False otherwise.
+    """
     system_paths = [
         "/System",
         "/Library/Apple",
@@ -54,8 +81,28 @@ def is_system_file(path: str) -> bool:
             
     return False
 
+def is_safe_path(path: str) -> bool:
+    """Checks if a path is safe to access.
+
+    Args:
+        path: The path to check.
+
+    Returns:
+        True if the path is safe, False otherwise.
+    """
+    return os.path.abspath(path).startswith(USER_HOME)
+
 def get_directory_size(directory: str) -> int:
-    """Calculate the total size of a directory in bytes."""
+    """Calculates the total size of a directory in bytes.
+
+    Args:
+        directory: The path to the directory.
+
+    Returns:
+        The total size of the directory in bytes.
+    """
+    if not is_safe_path(directory):
+        return 0
     total_size = 0
     try:
         for dirpath, _, filenames in os.walk(directory):
@@ -74,7 +121,11 @@ def get_directory_size(directory: str) -> int:
 
 @mcp.tool()
 async def disk_usage_summary() -> str:
-    """Get a summary of disk usage on the system."""
+    """Gets a summary of disk usage on the system.
+
+    Returns:
+        A string containing the disk usage summary.
+    """
     partitions = psutil.disk_partitions(all=False)
     result = []
     
@@ -92,12 +143,18 @@ async def disk_usage_summary() -> str:
 
 @mcp.tool()
 async def find_large_files(min_size_mb: int = SIZE_THRESHOLD_MB, directory: str = USER_HOME) -> str:
-    """Find large files in the specified directory.
-    
+    """Finds large files in the specified directory.
+
     Args:
-        min_size_mb: Minimum size in MB to consider a file as large
-        directory: Directory to search for large files
+        min_size_mb: The minimum size in MB to consider a file as large.
+        directory: The directory to search for large files.
+
+    Returns:
+        A string containing a list of large files found.
     """
+
+    if not is_safe_path(directory):
+        return "Error: Unsafe path specified."
     min_size_bytes = min_size_mb * 1024 * 1024
     result = ["Large files found:"]
     found_files = []
@@ -136,10 +193,13 @@ async def find_large_files(min_size_mb: int = SIZE_THRESHOLD_MB, directory: str 
 
 @mcp.tool()
 async def analyze_directory_sizes(top_n: int = 10) -> str:
-    """Analyze and report the sizes of key directories.
-    
+    """Analyzes and reports the sizes of key directories.
+
     Args:
-        top_n: Number of directories to report
+        top_n: The number of directories to report.
+
+    Returns:
+        A string containing a list of the top N largest directories.
     """
     directories_to_check = [
         USER_HOME + "/Downloads",
@@ -156,6 +216,8 @@ async def analyze_directory_sizes(top_n: int = 10) -> str:
     # Add any custom user directories in the home folder
     for entry in os.listdir(USER_HOME):
         full_path = os.path.join(USER_HOME, entry)
+        if not is_safe_path(full_path):
+            continue
         if os.path.isdir(full_path) and not entry.startswith(".") and full_path not in directories_to_check:
             directories_to_check.append(full_path)
     
@@ -176,10 +238,13 @@ async def analyze_directory_sizes(top_n: int = 10) -> str:
 
 @mcp.tool()
 async def clean_temp_files(dry_run: bool = True) -> str:
-    """Clean temporary files from common macOS locations.
-    
+    """Cleans temporary files from common macOS locations.
+
     Args:
-        dry_run: If True, only report what would be deleted without actually deleting
+        dry_run: If True, only reports what would be deleted without actually deleting.
+
+    Returns:
+        A string containing a summary of the cleanup operation.
     """
     temp_locations = [
         TEMP_DIR,
@@ -193,6 +258,8 @@ async def clean_temp_files(dry_run: bool = True) -> str:
     result = ["Temporary files cleanup:"]
     
     for location in temp_locations:
+        if not is_safe_path(location):
+            continue
         if not os.path.exists(location):
             continue
             
@@ -233,12 +300,17 @@ async def clean_temp_files(dry_run: bool = True) -> str:
 
 @mcp.tool()
 async def clean_downloads_folder(days_old: int = 30, dry_run: bool = True) -> str:
-    """Clean old files from the Downloads folder.
-    
+    """Cleans old files from the Downloads folder.
+
     Args:
-        days_old: Delete files older than this many days
-        dry_run: If True, only report what would be deleted without actually deleting
+        days_old: The number of days old a file must be to be deleted.
+        dry_run: If True, only reports what would be deleted without actually deleting.
+
+    Returns:
+        A string containing a summary of the cleanup operation.
     """
+    if not is_safe_path(DOWNLOADS_DIR):
+        return "Error: Unsafe path specified."
     if not os.path.exists(DOWNLOADS_DIR):
         return f"Downloads directory not found: {DOWNLOADS_DIR}"
     
@@ -282,12 +354,18 @@ async def clean_downloads_folder(days_old: int = 30, dry_run: bool = True) -> st
 
 @mcp.tool()
 async def clear_application_caches(app_name: Optional[str] = None, dry_run: bool = True) -> str:
-    """Clear application cache files.
-    
+    """Clears application cache files.
+
     Args:
-        app_name: Specific application name to clear cache for (optional)
-        dry_run: If True, only report what would be deleted without actually deleting
+        app_name: The specific application name to clear the cache for. If None, all application caches will be cleared.
+        dry_run: If True, only reports what would be deleted without actually deleting.
+
+    Returns:
+        A string containing a summary of the cleanup operation.
     """
+    app_cache_dir = f"{USER_HOME}/Library/Caches"
+    if not is_safe_path(app_cache_dir):
+        return "Error: Unsafe path specified."
     app_cache_dir = f"{USER_HOME}/Library/Caches"
     app_support_dir = f"{USER_HOME}/Library/Application Support"
     
@@ -309,9 +387,9 @@ async def clear_application_caches(app_name: Optional[str] = None, dry_run: bool
                         item_path = os.path.join(cache_path, item)
                         try:
                             if os.path.isfile(item_path):
-                                os.unlink(item_path)
+                                send2trash.send2trash(item_path)
                             elif os.path.isdir(item_path):
-                                shutil.rmtree(item_path)
+                                send2trash.send2trash(item_path)
                         except (OSError, PermissionError):
                             continue
                 except (OSError, PermissionError):
@@ -352,15 +430,20 @@ async def clear_application_caches(app_name: Optional[str] = None, dry_run: bool
 
 @mcp.tool()
 async def find_duplicate_files(directory: str = USER_HOME, max_files: int = 1000) -> str:
-    """Find potential duplicate files based on size.
-    
+    """Finds potential duplicate files based on size.
+
     This is a simple implementation that only looks at file sizes.
     For true duplicate detection, file content hashing would be needed.
-    
+
     Args:
-        directory: Directory to search for duplicates
-        max_files: Maximum number of files to process
+        directory: The directory to search for duplicates.
+        max_files: The maximum number of files to process.
+
+    Returns:
+        A string containing a list of potential duplicate files.
     """
+    if not is_safe_path(directory):
+        return "Error: Unsafe path specified."
     result = ["Potential duplicate files (based on size):"]
     size_dict: Dict[int, List[str]] = {}
     file_count = 0
@@ -416,7 +499,11 @@ async def find_duplicate_files(directory: str = USER_HOME, max_files: int = 1000
 
 @mcp.tool()
 async def list_installed_applications() -> str:
-    """List installed applications with their sizes."""
+    """Lists installed applications with their sizes.
+
+    Returns:
+        A string containing a list of installed applications and their sizes.
+    """
     app_dirs = [
         "/Applications",
         f"{USER_HOME}/Applications",
@@ -426,6 +513,8 @@ async def list_installed_applications() -> str:
     app_info = []
     
     for app_dir in app_dirs:
+        if not is_safe_path(app_dir):
+            continue
         if not os.path.exists(app_dir):
             continue
             
@@ -434,27 +523,7 @@ async def list_installed_applications() -> str:
                 app_path = os.path.join(app_dir, app)
                 try:
                     app_size = get_directory_size(app_path)
-                    last_used = None
-                    
-                    # Try to get last opened date from mdls on macOS
-                    try:
-                        mdls_output = subprocess.run(
-                            ["mdls", "-name", "kMDItemLastUsedDate", app_path], 
-                            capture_output=True, 
-                            text=True
-                        )
-                        if mdls_output.returncode == 0:
-                            date_line = mdls_output.stdout.strip()
-                            if "= " in date_line:
-                                date_str = date_line.split("= ")[1].strip()
-                                if date_str != "(null)":
-                                    last_used = date_str
-                    except (subprocess.SubprocessError, FileNotFoundError, IndexError):
-                        pass
-                    
-                    if last_used is None:
-                        last_used = "Unknown"
-                        
+                    last_used = "Unknown"
                     app_info.append((app.replace(".app", ""), app_size, last_used))
                 except (OSError, PermissionError):
                     continue

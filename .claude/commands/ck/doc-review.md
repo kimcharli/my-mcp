@@ -14,9 +14,43 @@ allowed-tools: Bash(ls:*), Bash(find:*), Bash(cat:*), Bash(git:*), Read(*), Writ
 
 **Update all documentation for:** $ARGUMENTS
 
-Ensure consistency across user, developer, and AI agent documentation.
+**🚨 CRITICAL: Context-aware documentation updates that respect project design principles**
 
-## 1. Documentation Structure
+Ensure consistency across user, developer, and AI agent documentation while maintaining project-specific documentation philosophy.
+
+## 🎯 STEP 0: PROJECT DOCUMENTATION PRINCIPLES EXTRACTION (CRITICAL - RUN FIRST)
+
+**Before making ANY documentation changes, extract and validate project-specific documentation principles:**
+
+### Documentation Philosophy Analysis:
+```bash
+# Extract key documentation design claims
+grep -i "no.*config.*files\|zero.*setup\|interactive.*config\|self.*contained\|minimal.*docs\|single.*file\|documentation.*philosophy" README.md CLAUDE.md *.md
+
+# Check for explicit documentation structure preferences
+grep -i "directory.*structure\|file.*organization\|docs.*folder\|keep.*root\|avoid.*dirs" README.md CLAUDE.md *.md
+
+# Look for configuration philosophy
+grep -i "no.*env\|environment.*files\|configuration.*approach\|setup.*method" README.md CLAUDE.md *.md
+```
+
+### Critical Documentation Principles Detection:
+- **"No .env files required"** → Flag any documentation suggesting .env setup
+- **"Zero-config setup"** → Flag documentation adding configuration steps  
+- **"Interactive configuration"** → Flag automated config file creation
+- **"Self-contained architecture"** → Flag external dependency documentation
+- **"Minimal documentation"** → Flag extensive documentation reorganization
+- **"Single-file approach"** → Flag docs/ directory creation
+
+### Contradiction Detection:
+- Does project claim "no config files" but we're documenting .env setup?
+- Does project claim "zero setup" but we're adding configuration documentation?
+- Does project claim "minimal docs" but we're creating extensive structure?
+- Does project have custom documentation philosophy that generic updates would violate?
+
+**🚨 CRITICAL CHECKPOINT: If ANY contradiction detected, STOP and request user confirmation**
+
+## 1. Context-Aware Documentation Structure
 
 ### Root Files (Keep for Visibility)
 - `README.md` - Project overview & quick start
@@ -83,22 +117,38 @@ Identify impact of changes on:
 - Remove outdated information
 - Add missing documentation
 
-### Execution Steps
+### Context-Aware Execution Steps
 
-1. **Analyze Impact** - Review code changes and identify documentation needs
-2. **Structure Analysis** - Run smart documentation organization analysis
-3. **Smart Reorganization** - Execute file migration and link updates FIRST (if needed)
-4. **Update Core Files** - README.md, CLAUDE.md, CHANGELOG.md with new features using correct paths
-5. **Update Specialized Docs** - API references, configuration guides, troubleshooting with correct paths
-6. **Quality Check** - Validate links, examples, consistency, completeness
+**🚨 MANDATORY WORKFLOW: EXTRACT PRINCIPLES → VALIDATE CHANGES → APPLY OR FLAG → CONTINUE**
 
-## 6. Smart Documentation Organization
+1. **Extract Design Principles** - Run STEP 0 project documentation principles analysis
+2. **Validate Against Principles** - Check ALL proposed changes against documented philosophy
+3. **Analyze Impact** - Review code changes and identify documentation needs (respecting principles)
+4. **Structure Analysis** - Run smart documentation organization analysis (validate against principles)
+5. **Principle-Validated Reorganization** - Execute file migration ONLY if doesn't violate documented philosophy
+6. **Context-Aware Core Updates** - README.md, CLAUDE.md, CHANGELOG.md respecting project architecture claims
+7. **Validated Specialized Docs** - API references, configuration guides (NO .env docs if "no .env files" documented)
+8. **Quality Check** - Validate links, examples, consistency, completeness, principle compliance
 
-> ⚠️ **CRITICAL SEQUENCING**: File reorganization MUST happen BEFORE content updates to prevent broken cross-references. The execution steps are ordered correctly to avoid this issue.
+## 6. Context-Aware Smart Documentation Organization
 
-### Analyze Current Structure
+> ⚠️ **CRITICAL SEQUENCING**: Design principle validation → File reorganization → Content updates. The execution steps are ordered correctly to avoid this issue.
+
+> 🚨 **CRITICAL**: Respect documented project philosophy. If project claims "minimal docs" or "single-file approach", DO NOT create extensive docs/ structure.
+
+### Principle-Validated Structure Analysis
 ```bash
-# Discover documentation structure issues
+# STEP 1: Validate reorganization against project principles
+echo "=== Design Principle Validation Check ==="
+
+# Check if project forbids docs/ organization
+if grep -q "minimal.*docs\|single.*file\|keep.*root\|avoid.*dirs" README.md CLAUDE.md *.md 2>/dev/null; then
+    echo "⚠️  Project documents minimal/single-file approach - SKIP extensive reorganization"
+    echo "✅ Respecting documented philosophy: maintain current structure"
+    exit 0
+fi
+
+# STEP 2: Discover documentation structure issues (ONLY if principles allow)
 echo "=== Documentation Structure Analysis ==="
 
 # Find potential misplaced files in root
@@ -172,10 +222,17 @@ analyze_doc_files() {
 
 ### Automated File Migration (CRITICAL: Do BEFORE content updates)
 ```bash
-# Execute smart reorganization (with safety checks) 
+# Execute context-aware smart reorganization (with design principle validation) 
 # ⚠️ MUST RUN BEFORE updating file content to avoid broken links
 reorganize_documentation() {
-    echo "=== Documentation Reorganization (BEFORE content updates) ==="
+    echo "=== Context-Aware Documentation Reorganization (AFTER principle validation) ==="
+    
+    # CRITICAL: Validate against project documentation principles first
+    if grep -q "minimal.*docs\|single.*file\|keep.*root\|avoid.*dirs" README.md CLAUDE.md *.md 2>/dev/null; then
+        echo "🚨 Project documents preference for minimal/single-file structure"
+        echo "✅ SKIPPING reorganization to respect documented philosophy"
+        return 0
+    fi
     
     # STEP 1: Analyze and plan moves without executing
     echo "Planning file movements..."
@@ -295,20 +352,21 @@ EOF
 
 ## Deliverables
 
-### Essential Updates
+### Context-Aware Essential Updates
 
-- ✅ **README.md** - Feature coverage, installation, usage examples
-- ✅ **CLAUDE.md** - AI assistant context and integration patterns  
+- ✅ **README.md** - Feature coverage, installation, usage examples (respecting documented setup philosophy)
+- ✅ **CLAUDE.md** - AI assistant context and integration patterns (maintaining project-specific approach)
 - ✅ **CHANGELOG.md** - Version history with recent changes
-- ✅ **Configuration docs** - Environment variables, setup guides
-- ✅ **API/Technical docs** - Updated specifications and procedures
+- ✅ **Configuration docs** - ONLY if project design allows (NO .env docs if "no .env files" documented)
+- ✅ **API/Technical docs** - Updated specifications respecting architectural claims
 
-### Quality Validation
+### Context-Aware Quality Validation
 
+- ✅ **Design Principle Compliance** - ALL changes respect documented project philosophy
 - ✅ **Link integrity** - All cross-references working
-- ✅ **Example accuracy** - Code snippets tested and current
-- ✅ **Consistency** - Terminology, formatting, versioning aligned
-- ✅ **Completeness** - All features documented appropriately
+- ✅ **Example accuracy** - Code snippets tested and current (using project's preferred approach)
+- ✅ **Consistency** - Terminology, formatting, versioning aligned with project claims
+- ✅ **Completeness** - All features documented appropriately without violating architectural principles
 
 ### Smart Organization Features
 

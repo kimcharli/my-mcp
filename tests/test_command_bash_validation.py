@@ -259,7 +259,8 @@ class TestCommandExecutionSafety(unittest.TestCase):
                         command.split(), 
                         capture_output=True, 
                         text=True, 
-                        timeout=5
+                        timeout=5,
+                        check=False
                     )
                     # Command should execute without error (though output may vary)
                     self.assertIsNotNone(result)

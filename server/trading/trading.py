@@ -43,9 +43,9 @@ load_dotenv()
 mcp = FastMCP("trading")
 
 # Constants and configuration
-TRADING_MODE = get_env_var("TRADING_MODE", "paper").lower()
-DATA_REQUEST_TIMEOUT = get_env_var("DATA_REQUEST_TIMEOUT", 10.0)
-USE_MOCK_DATA = get_env_var("USE_MOCK_DATA", False)
+mcp.TRADING_MODE = get_env_var("TRADING_MODE", "paper").lower()
+mcp.DATA_REQUEST_TIMEOUT = get_env_var("DATA_REQUEST_TIMEOUT", 10.0)
+mcp.USE_MOCK_DATA = get_env_var("USE_MOCK_DATA", False)
 
 # Registry of CLI commands
 cli_commands = {}
@@ -71,7 +71,7 @@ async def get_quote(symbol: str) -> str:
     logger.info(f"Getting quote for {symbol}")
     
     try:
-        quote_data = await MarketData.get_quote(symbol, timeout=DATA_REQUEST_TIMEOUT, use_mock=USE_MOCK_DATA)
+        quote_data = await MarketData.get_quote(symbol, timeout=mcp.DATA_REQUEST_TIMEOUT, use_mock=mcp.USE_MOCK_DATA)
         
         # Format the quote data into a nice string
         result = [f"Quote for {symbol}:"]
@@ -111,7 +111,7 @@ async def get_account_summary() -> str:
             
             for symbol in symbols:
                 try:
-                    quote = await MarketData.get_quote(symbol, use_mock=USE_MOCK_DATA)
+                    quote = await MarketData.get_quote(symbol, use_mock=mcp.USE_MOCK_DATA)
                     current_prices[symbol] = quote["price"]
                 except Exception as e:
                     logger.error(f"Error getting price for {symbol}: {e}")
@@ -181,7 +181,7 @@ async def submit_order(symbol: str, action: str, quantity: float, order_type: st
         
         # Get current price for execution
         try:
-            quote = await MarketData.get_quote(symbol, use_mock=USE_MOCK_DATA)
+            quote = await MarketData.get_quote(symbol, use_mock=mcp.USE_MOCK_DATA)
             current_price = quote["price"]
         except Exception as e:
             logger.error(f"Error getting price for {symbol}: {e}")
@@ -225,7 +225,7 @@ async def analyze_portfolio() -> str:
             
             for symbol in symbols:
                 try:
-                    quote = await MarketData.get_quote(symbol, use_mock=USE_MOCK_DATA)
+                    quote = await MarketData.get_quote(symbol, use_mock=mcp.USE_MOCK_DATA)
                     current_prices[symbol] = quote["price"]
                 except Exception as e:
                     logger.error(f"Error getting price for {symbol}: {e}")
@@ -292,7 +292,7 @@ async def get_historical_data(symbol: str, period: str = "1mo", interval: str = 
             symbol=symbol,
             period=period,
             interval=interval,
-            use_mock=USE_MOCK_DATA
+            use_mock=mcp.USE_MOCK_DATA
         )
         
         # Format the results
@@ -355,7 +355,7 @@ def main():
         
     # Execute the command
     cmd_func = cli_commands[args.command]
-    print(f"Executing {args.command}, please wait (timeout: {DATA_REQUEST_TIMEOUT}s)...")
+    print(f"Executing {args.command}, please wait (timeout: {mcp.DATA_REQUEST_TIMEOUT}s)...")
     
     # Extract args for the function and convert to the correct types
     func_args = {}

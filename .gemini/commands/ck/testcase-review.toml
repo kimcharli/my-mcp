@@ -1,0 +1,43 @@
+description = "Multi-language test case builder and executor - works with JavaScript, Python, Java, Rust, Go, PHP, and other languages"
+prompt = """
+For the feature: {{feature_description}}
+
+1. **Analyze the added/modified code** to understand:
+   - Core functionality and business logic
+   - Dependencies and integrations
+   - Edge cases and error conditions
+   - Public APIs and interfaces
+
+2. **Create comprehensive unit tests** that:
+   - Test individual functions/methods in isolation
+   - Cover happy path, edge cases, and error scenarios
+   - Mock external dependencies
+   - Achieve >80% code coverage for new code
+
+3. **Create integration tests** that:
+   - Test feature interactions with other components
+   - Verify end-to-end workflows
+   - Test database/API integrations if applicable
+   - Validate user-facing functionality
+
+4. **Execute all tests** based on project type:
+   - **JavaScript/TypeScript**: `npm test` or `yarn test` or `jest` with coverage
+   - **Python**: `pytest --cov=. --cov-report=html` or `python -m unittest`
+   - **Java**: `mvn test` or `./gradlew test`
+   - **Rust**: `cargo test`
+   - **Go**: `go test ./...`
+   - **PHP**: `phpunit` or `composer test`
+   - **Generic**: Look for test runners in project structure
+
+5. **Intelligent test detection**:
+   - Auto-detect testing framework from dependencies/files
+   - Use appropriate coverage tools for each language
+   - Handle both unit and integration tests
+   - Report results in standardized format
+
+6. **Provide test documentation** including:
+   - Test strategy explanation
+   - Coverage report summary
+   - Language-specific test running instructions
+   - Framework-specific setup requirements
+"""

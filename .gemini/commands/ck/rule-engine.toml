@@ -1,0 +1,65 @@
+description = "Create and manage a comprehensive rule engine with subject-condition-action patterns"
+prompt = """
+Create a comprehensive **Rule Engine Management System** with the following components:
+
+### 1. Rule Schema Definition
+Create a standardized rule format with:
+- **Subject**: What entity/object the rule applies to
+- **Condition**: When the rule should trigger (boolean logic, comparisons, patterns)
+- **Action**: What should happen when the condition is met
+- **Metadata**: Priority, category, description, enabled/disabled status
+
+Example rule structure:
+```json
+{
+  "id": "rule_001",
+  "name": "High Value Customer Discount",
+  "subject": "customer",
+  "condition": {
+    "and": [
+      {"field": "total_purchases", "operator": ">", "value": 1000},
+      {"field": "account_type", "operator": "==", "value": "premium"}
+    ]
+  },
+  "action": {
+    "type": "apply_discount",
+    "parameters": {"percentage": 15, "reason": "high_value_customer"}
+  },
+  "priority": 100,
+  "enabled": true,
+  "category": "customer_rewards"
+}
+```
+
+### 2. Default Rule Book Creation
+Generate a comprehensive default rulebook with rules for:
+- Customer Management
+- Order Processing
+- Inventory
+- Security
+- System Monitoring
+- Content Moderation
+
+### 3. Rule Management Interface
+Implement CRUD operations for rules (View, Download, Upload, Revise).
+
+### 4. Rule Execution Engine
+Create a rule processor that evaluates conditions, handles complex logic, processes rules by priority, and logs execution results.
+
+### 5. Integration Components
+- Data Input Interface
+- Action Execution System
+- Monitoring & Analytics
+
+### 6. Configuration & Settings
+Provide configuration for rule evaluation, action execution, logging, and security.
+
+### 7. Testing & Validation Framework
+Include capabilities for unit testing, regression testing, performance testing, and conflict detection.
+
+### Implementation Requirements:
+- Choose an appropriate technology stack (Node.js/Python/Go).
+- Design a scalable architecture.
+- Implement proper error handling and logging.
+- Create comprehensive documentation and usage examples.
+"""

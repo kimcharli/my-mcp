@@ -21,6 +21,10 @@ RISK_MAX_DAILY_LOSS = float(os.getenv("RISK_MAX_DAILY_LOSS", "1000"))
 class PaperTradingService:
     """Service for paper trading operations."""
     
+    def __init__(self, risk_max_position_size: float = 5000.0, risk_max_daily_loss: float = 1000.0):
+        self.RISK_MAX_POSITION_SIZE = float(os.getenv("RISK_MAX_POSITION_SIZE", risk_max_position_size))
+        self.RISK_MAX_DAILY_LOSS = float(os.getenv("RISK_MAX_DAILY_LOSS", risk_max_daily_loss))
+    
     @staticmethod
     def load_account() -> PaperAccount:
         """Load the paper trading account data."""

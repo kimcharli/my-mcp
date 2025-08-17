@@ -1,0 +1,6 @@
+# .gemini/commands/ck/doc-review.toml
+
+prompt = """
+  Review the documentation in the'{{directory}}' directory.
+  Scope: {{scope or 'full'}}
+"""
