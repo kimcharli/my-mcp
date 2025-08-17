@@ -1,0 +1,15 @@
+# Requirements for Claude Code Commands Testing Framework
+
+# Core requirements
+PyYAML>=6.0
+pathlib2>=2.3.7; python_version < '3.4'
+
+# Optional requirements for enhanced features
+markdown>=3.4.0
+jinja2>=3.1.0
+click>=8.0.0
+
+# Development/testing requirements  
+pytest>=7.0.0
+coverage>=6.0.0
+pre-commit>=2.20.0
