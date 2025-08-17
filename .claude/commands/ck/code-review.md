@@ -9,11 +9,13 @@ allowed-tools: Bash(find:*), Bash(git status:*), Bash(git log:*), Bash(ls:*), Ba
 
 ## Context
 
-- Project files: !`find . -type f \( -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.md" -o -name "*.json" -o -name "*.toml" -o -name "*.yaml" -o -name "*.yml" \) | grep -v node_modules | grep -v .git | grep -v __pycache__ | head -30`
+- Python files: !`find . -name "*.py"`
+- JSON files: !`find . -name "*.json"`
+- Documentation: !`find . -name "*.md"`
 - Current git status: !`git status --porcelain`
 - Recent commits: !`git log --oneline -10`
 - Root structure: !`ls -la`
-- Directory structure: !`find . -type d -maxdepth 2 | grep -v ".git\|__pycache__\|node_modules\|.venv" | sort`
+- Main directories: !`find . -maxdepth 2 -type d`
 
 ## Task
 
