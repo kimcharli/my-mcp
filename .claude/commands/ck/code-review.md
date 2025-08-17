@@ -1,7 +1,7 @@
 ---
 command: "/ck:code-review"
 category: "Quality & Code Review"
-purpose: "Comprehensive code review with project structure validation"
+purpose: "Comprehensive code review with project structure validation (excludes documentation review)"
 wave-enabled: true
 performance-profile: "optimization"
 allowed-tools: Bash(find:*), Bash(git status:*), Bash(git log:*), Bash(ls:*), Bash(grep:*), Bash(wc:*), Read(*), Glob(*), Grep(*)
@@ -11,7 +11,7 @@ allowed-tools: Bash(find:*), Bash(git status:*), Bash(git log:*), Bash(ls:*), Ba
 
 - Python files: !`find . -name "*.py"`
 - JSON files: !`find . -name "*.json"`
-- Documentation: !`find . -name "*.md"`
+- TypeScript files: !`find . -name "*.ts"`
 - Current git status: !`git status --porcelain`
 - Recent commits: !`git log --oneline -10`
 - Root structure: !`ls -la`
@@ -20,6 +20,8 @@ allowed-tools: Bash(find:*), Bash(git status:*), Bash(git log:*), Bash(ls:*), Ba
 ## Task
 
 Perform comprehensive code review covering structure, quality, security, and maintainability.
+
+**Note:** For documentation review, use `/ck:doc-review` command.
 
 ## Code Review Checklist
 
@@ -65,13 +67,13 @@ Perform comprehensive code review covering structure, quality, security, and mai
 - ✅ **CI/CD Integration**: Automated testing where applicable
 - ✅ **Edge Cases**: Tests cover edge cases and error conditions
 
-### 📚 Documentation Review
-- ✅ **Content Accuracy**: Documentation reflects current implementation
-- ✅ **Completeness**: All features and APIs documented
-- ✅ **Link Validity**: All internal and external links working
-- ✅ **User Experience**: Clear setup and usage instructions
-- ✅ **Consistency**: Consistent terminology and formatting
-- ✅ **Examples**: Working code examples and use cases
+### 📝 Code Documentation
+- ✅ **Inline Comments**: Clear code comments and docstrings
+- ✅ **API Documentation**: Code-level documentation (docstrings, JSDoc)
+- ✅ **Code Examples**: Inline examples in docstrings where helpful
+- ✅ **TODO/FIXME**: Appropriate use of code annotations
+
+**Note:** For comprehensive documentation review (README, guides, etc.), use `/ck:doc-review`
 
 ### ⚡ Performance & Optimization
 - ✅ **Resource Usage**: Efficient resource utilization
@@ -163,8 +165,10 @@ markdown-link-check README.md
 2. **Code Quality Review**: Check implementation patterns and best practices
 3. **Security Audit**: Scan for vulnerabilities and security issues
 4. **Performance Review**: Identify optimization opportunities
-5. **Documentation Validation**: Verify accuracy and completeness
+5. **Code Documentation Review**: Verify inline comments and code-level documentation
 6. **Test Coverage**: Ensure adequate testing for new/changed code
+
+**Note:** For comprehensive documentation review (README, guides, changelogs, etc.), use `/ck:doc-review`
 
 ## Output Format
 
@@ -180,7 +184,7 @@ Provide review results in this structure:
 - Files Reviewed: X
 - Issues Found: X (Critical: X, High: X, Low: X)  
 - Test Coverage: X%
-- Documentation Coverage: X%
+- Code Documentation Coverage: X%
 
 ## 🔴 Critical Issues
 [Must fix before merge]
@@ -199,7 +203,7 @@ Provide review results in this structure:
 
 ## 📝 Action Items
 - [ ] Fix critical security issue in file X
-- [ ] Update documentation for feature Y
+- [ ] Add inline documentation for function Y
 - [ ] Add tests for module Z
 ```
 
