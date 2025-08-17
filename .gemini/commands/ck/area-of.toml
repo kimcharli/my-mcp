@@ -1,0 +1,2 @@
+description = "This is an example command."
+prompt = "What is the area of {{country}}"
