@@ -186,7 +186,7 @@ markdown-link-check README.md
 
 ## Review Process
 
-**🚨 MANDATORY SECURITY-FIRST APPROACH:**
+**🚨 MANDATORY SECURITY-FIRST APPROACH WITH AUTOMATED REMEDIATION:**
 
 1. **Security-First Root Scan** (BEFORE ANY OTHER ANALYSIS):
    - **Read ALL executable files in project root** (.js, .py, .ts, .sh, .bat)
@@ -199,16 +199,25 @@ markdown-link-check README.md
    - Verify only essential files exist in project root
    - Scan for any suspicious file patterns (debug-*.js, temp-*, scratch-*)
    
-3. **Code Quality Review**: Check implementation patterns and best practices
-4. **Performance Review**: Identify optimization opportunities  
-5. **Code Documentation Review**: Verify inline comments and code-level documentation
-6. **Test Coverage**: Ensure adequate testing for new/changed code
+3. **AUTOMATED REMEDIATION PHASE** (NEW):
+   - **Immediately fix identified security issues** after flagging them
+   - **Move misplaced debug/utility files** to appropriate directories
+   - **Create scripts/ directory** if it doesn't exist
+   - **Update .gitignore** to prevent future issues
+   - **Verify all fixes** are applied correctly
+   
+4. **Code Quality Review**: Check implementation patterns and best practices
+5. **Performance Review**: Identify optimization opportunities  
+6. **Code Documentation Review**: Verify inline comments and code-level documentation
+7. **Test Coverage**: Ensure adequate testing for new/changed code
 
-**⚠️ CRITICAL RULE: If ANY hardcoded credentials, production IPs, or sensitive data found in root files, STOP review and flag as SECURITY CRITICAL**
+**⚠️ UPDATED RULE: When security issues are found, IDENTIFY them as CRITICAL, then IMMEDIATELY PROCEED to fix them automatically**
 
-## 🚨 SECURITY SCAN EXECUTION STEPS
+## 🚨 SECURITY SCAN AND AUTO-FIX EXECUTION STEPS
 
-### Step 1: Discovery Phase
+**CRITICAL WORKFLOW: IDENTIFY → FIX → VERIFY → CONTINUE**
+
+### Step 1: Discovery and Analysis Phase
 
 ```bash
 # Find ALL executable files in project root
@@ -229,7 +238,7 @@ grep -r -i "password\|secret\|token\|api.*key\|admin:admin" \
   --include="*.js" --include="*.ts" --include="*.py" --include="*.json" \
   --exclude-dir=node_modules --exclude-dir=dist .
 
-# Production IP scan
+# Production IP scan  
 grep -r "10\.\|192\.168\.\|172\." --include="*.js" --include="*.ts" --include="*.py" .
 
 # Specific production URL patterns
@@ -242,7 +251,196 @@ grep -r -E "https://.*\.(46|85)\." --include="*.js" --include="*.ts" .
 - All utility/debug scripts must be in scripts/ or tools/ directories
 - Flag any misplaced development artifacts
 
+### Step 5: **IMMEDIATE AUTO-REMEDIATION** (Execute After Each Issue Found)
+
+**🚨 DO NOT PROCEED TO NEXT REVIEW SECTION UNTIL ALL CRITICAL FIXES ARE APPLIED**
+
+#### A. Move Misplaced Files:
+```bash
+# Execute immediately when debug/test files found in root
+mkdir -p scripts/
+for file in debug-*.js temp-*.* test-*.js scratch-*.*; do
+    if [ -f "$file" ]; then
+        echo "🔧 FIXING: Moving $file to scripts/"
+        mv "$file" scripts/
+    fi
+done
+```
+
+#### B. Secure Credentials:
+- **IMMEDIATE ACTION**: Edit files with hardcoded secrets
+- **REPLACE** hardcoded values with environment variables  
+- **CREATE** .env.example with placeholder values
+
+#### C. Update .gitignore:
+```bash
+# Prevent future issues
+if ! grep -q "debug-\*" .gitignore; then
+    echo "🔧 FIXING: Updating .gitignore"
+    echo -e "\n# Debug and temp files\ndebug-*\ntemp-*\nscratch-*" >> .gitignore
+fi
+```
+
+### Step 6: Post-Fix Verification
+
+```bash
+# Verify no critical files remain in root
+echo "🔍 VERIFYING: Checking for remaining debug files in root"
+find . -maxdepth 1 \( -name "debug-*" -o -name "temp-*" -o -name "scratch-*" \) -type f
+
+# Verify scripts directory created
+echo "🔍 VERIFYING: Scripts directory contents"
+ls -la scripts/ 2>/dev/null || echo "No scripts directory found"
+
+# Final security scan
+echo "🔍 VERIFYING: Final credential scan"  
+grep -r -i "password\|secret\|api.*key" --include="*.js" --include="*.py" . | grep -v ".env.example" || echo "No hardcoded credentials found"
+```
+
+### Step 7: **ONLY THEN CONTINUE** to Code Quality Review
+
+- ✅ All critical security issues resolved
+- ✅ File structure organized properly  
+- ✅ Post-fix verification completed
+- ➡️ **NOW SAFE** to proceed with quality/performance/documentation review
+
 **Note:** For comprehensive documentation review (README, guides, changelogs, etc.), use `/ck:doc-review`
+
+## 🔧 AUTOMATED REMEDIATION PROCEDURES
+
+### Security Issue Remediation (Execute Immediately After Identification)
+
+#### 1. **Misplaced Debug/Test Files in Root**
+```bash
+# Create scripts directory if it doesn't exist
+mkdir -p scripts/
+
+# Move debug/test files to scripts/
+for file in debug-*.js temp-*.* test-*.js scratch-*.*; do
+    if [ -f "$file" ]; then
+        echo "Moving $file to scripts/"
+        mv "$file" scripts/
+    fi
+done
+```
+
+#### 2. **Hardcoded Credentials Found**
+- **IMMEDIATE ACTION**: Comment out or remove lines with hardcoded credentials
+- **SECURE REPLACEMENT**: Replace with environment variable references
+- **EXAMPLE FIX**:
+```javascript
+// BEFORE (CRITICAL):
+const apiKey = "sk-1234567890abcdef";
+
+// AFTER (SECURE):
+const apiKey = process.env.API_KEY || '';
+if (!apiKey) {
+    throw new Error('API_KEY environment variable is required');
+}
+```
+
+#### 3. **Production URLs/IPs in Code**
+- **IMMEDIATE ACTION**: Replace hardcoded production URLs with environment variables
+- **CONFIGURATION FILE**: Create/update .env.example with placeholder values
+- **EXAMPLE FIX**:
+```javascript
+// BEFORE (INSECURE):
+const baseUrl = "https://production.example.com";
+
+// AFTER (SECURE):
+const baseUrl = process.env.BASE_URL || 'https://localhost:3000';
+```
+
+#### 4. **Missing .gitignore Entries**
+```bash
+# Add to .gitignore if not present
+echo "# Temporary and debug files" >> .gitignore
+echo "debug-*" >> .gitignore
+echo "temp-*" >> .gitignore
+echo "scratch-*" >> .gitignore
+echo "test-*.js" >> .gitignore
+echo "*.log" >> .gitignore
+echo ".env" >> .gitignore
+```
+
+#### 5. **File Organization Fixes**
+```bash
+# Ensure proper directory structure
+mkdir -p scripts/ tests/ docs/ src/
+
+# Move utility scripts
+find . -maxdepth 1 -name "*-util.js" -exec mv {} scripts/ \;
+find . -maxdepth 1 -name "*-helper.py" -exec mv {} scripts/ \;
+
+# Update any imports/references after moving files
+grep -r "require('./debug-" . && echo "⚠️  Update import paths after moving files"
+```
+
+### Automated Quality Fixes
+
+#### 1. **Missing Error Handling**
+- Add try-catch blocks around risky operations
+- Implement proper error logging
+- Add input validation
+
+#### 2. **Documentation Gaps**
+- Add JSDoc/docstring headers to undocumented functions
+- Add inline comments for complex logic
+- Update README with new features
+
+#### 3. **Security Headers**
+```bash
+# Add security headers to .env.example
+echo "# Security Configuration" >> .env.example
+echo "NODE_ENV=production" >> .env.example
+echo "SESSION_SECRET=generate-secure-key-here" >> .env.example
+```
+
+### Post-Remediation Validation
+
+#### 1. **Verify Fixes Applied**
+```bash
+# Confirm no debug files in root
+find . -maxdepth 1 \( -name "debug-*" -o -name "temp-*" -o -name "scratch-*" \) -type f | wc -l
+
+# Confirm no hardcoded credentials
+grep -r -i "password\|secret\|api.*key" --include="*.js" --include="*.py" . | grep -v ".env.example"
+
+# Confirm scripts directory created and populated
+ls -la scripts/ 2>/dev/null || echo "Scripts directory needed"
+```
+
+#### 2. **Test Application Still Works**
+```bash
+# Run basic tests
+npm test 2>/dev/null || python -m pytest 2>/dev/null || echo "Run manual testing"
+
+# Check for broken imports
+grep -r "require('./debug-" . && echo "⚠️  Fix import paths"
+grep -r "from.*debug-" . && echo "⚠️  Fix import paths"
+```
+
+#### 3. **Update Documentation**
+- Update README.md with new security practices
+- Document environment variable requirements
+- Add setup instructions for scripts/
+
+### Remediation Priority Order
+
+1. **🔴 CRITICAL - Execute Immediately**:
+   - Remove/secure hardcoded credentials
+   - Move debug files from root
+   - Fix production URL exposure
+
+2. **🟡 HIGH - Execute During Review**:
+   - Update .gitignore
+   - Create proper directory structure
+   - Add environment variable templates
+
+3. **🟢 NICE TO HAVE - Schedule for Later**:
+   - Add missing error handling
+   - Improve documentation
+   - Optimize performance issues
 
 ## Output Format
 
@@ -257,31 +455,48 @@ Provide review results in this structure:
 ## 📊 Review Metrics
 - Files Reviewed: X
 - Issues Found: X (Critical: X, High: X, Low: X)  
+- Issues Fixed: X (Critical: X, High: X)
 - Test Coverage: X%
 - Code Documentation Coverage: X%
 
-## 🔴 Critical Issues (SECURITY BLOCKERS)
-[Must fix before merge - security issues BLOCK all other review]
+## 🔧 AUTOMATED FIXES APPLIED
+[List of security and structural issues automatically resolved]
 
-## 📁 Project Structure Issues  
-[File organization and placement violations]
+### 🔴 Critical Security Fixes:
+- ✅ Moved debug-*.js files from root to scripts/
+- ✅ Removed hardcoded API keys from config.js
+- ✅ Updated .gitignore to prevent future issues
+- ⚠️ Manual review required for: [list any issues needing manual attention]
+
+### 📁 Structure Improvements:
+- ✅ Created scripts/ directory
+- ✅ Organized utility files properly  
+- ✅ Updated file permissions
+
+## 🔴 Remaining Critical Issues (SECURITY BLOCKERS)
+[Issues that require manual attention before merge]
 
 ## 🟡 High Priority Issues  
-[Should fix soon]
+[Should fix soon - some may have been auto-fixed]
 
 ## 🟢 Suggestions & Improvements
-[Nice to have improvements]
-
-## 📁 Project Structure Issues
-[Organization and file placement issues]
+[Nice to have improvements for future consideration]
 
 ## ✅ What's Working Well
 [Positive feedback on good practices]
 
-## 📝 Action Items
-- [ ] Fix critical security issue in file X
-- [ ] Add inline documentation for function Y
-- [ ] Add tests for module Z
+## 📝 Verification Steps Completed
+- [x] Security scan completed
+- [x] Automated fixes applied  
+- [x] Post-fix validation run
+- [x] File structure reorganized
+- [ ] Manual testing recommended
+
+## 📝 Action Items Remaining
+- [ ] Test application after file moves
+- [ ] Update import paths if needed
+- [ ] Review environment variable setup
+- [ ] Add missing documentation for functions X, Y
 ```
 
 This comprehensive review catches organizational issues before they become problems during documentation updates! 🎯

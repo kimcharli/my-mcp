@@ -301,6 +301,50 @@ When working with this MCP collection:
 
 This collection is designed to be a powerful toolkit for AI assistants, enabling sophisticated interactions with real-world systems while maintaining safety and providing educational value.
 
+## Testing Integration Context
+
+### Test-Driven Development Support
+
+The MCP server collection includes comprehensive testing frameworks designed to support AI assistants in development workflows:
+
+**Testing Capabilities:**
+- **Multi-language Testing**: Python (pytest), JavaScript (npm test), Java (maven/gradle), Rust (cargo), Go (go test), PHP (phpunit)
+- **Coverage Reporting**: HTML coverage reports with >80% target coverage
+- **Safety Validation**: Dry-run testing for destructive operations
+- **Integration Testing**: Cross-server workflow validation
+- **Command Validation**: Claude Code command compatibility testing
+
+**AI Usage Patterns for Testing:**
+```
+# Test Development Workflow
+"Create comprehensive test cases for the weather API integration"
+"Run the test suite and analyze the coverage report"
+"Generate integration tests for the trading server portfolio analysis"
+
+# Quality Assurance
+"Validate all filesystem operations use dry-run mode by default"
+"Test error handling for network timeouts in market data requests"
+"Verify security compliance across all MCP server implementations"
+
+# Test Analysis
+"Review test failures and suggest fixes for the trading server"
+"Analyze test coverage gaps and recommend additional test cases"
+"Generate performance test cases for large file operations"
+```
+
+**Testing Best Practices for AI Assistants:**
+1. **Test First**: Generate comprehensive test cases before implementing features
+2. **Safety Testing**: Always include dry-run and error condition testing
+3. **Coverage Focus**: Aim for >80% code coverage with meaningful tests
+4. **Integration Validation**: Test cross-server workflows and dependencies
+5. **Command Compatibility**: Validate Claude Code command syntax and permissions
+
+**Recent Testing Enhancements:**
+- **Bash Command Validation Framework**: Prevents Claude Code permission failures
+- **Enhanced Integration Testing**: Cross-server workflow validation
+- **Multi-language Test Support**: Intelligent framework detection and execution
+- **Coverage Analysis**: Detailed HTML reports with improvement recommendations
+
 ## Advanced Integration Features
 
 ### Claude Code SuperClaude Framework

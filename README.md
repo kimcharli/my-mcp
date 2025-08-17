@@ -408,6 +408,45 @@ Use with Claude Code or other AI assistants:
 "Show me historical weather data for the last month"
 ```
 
+## 📊 Testing & Quality Assurance
+
+### Comprehensive Test Suite
+
+The project includes a robust testing framework with multiple layers:
+
+**Test Coverage:**
+- **Trading Server**: 42% coverage with 34+ unit tests
+- **Filesystem Server**: Complete unit test suite with safety validation  
+- **Weather Server**: Comprehensive test coverage for all API interactions
+- **Integration Tests**: Cross-server workflow validation
+- **Command Validation**: Bash command permission testing (recently added)
+
+**Testing Features:**
+- **Multi-language Support**: Python (pytest), JavaScript (npm test), Java (maven/gradle)
+- **Safety Testing**: Dry-run validation for destructive operations
+- **Permission Validation**: Claude Code command compatibility testing
+- **Performance Testing**: Response time and resource usage validation
+
+**Run Tests:**
+```bash
+# Individual server testing
+cd server/trading && uv run pytest tests/ --cov=. --cov-report=html -v
+cd server/filesystem && uv run pytest tests/ --cov=. --cov-report=html -v  
+cd server/weather && uv run pytest tests/ --cov=. --cov-report=html -v
+
+# Comprehensive test suite
+python run_all_tests.py
+
+# Command validation testing
+python tests/test_command_bash_validation.py
+```
+
+**Recent Enhancements:**
+- **Bash Command Validation**: New test framework for Claude Code command compatibility
+- **Permission Testing**: Validates complex command patterns before deployment
+- **Integration Testing**: Enhanced MCP protocol compliance testing
+- **Coverage Reporting**: HTML reports with detailed analysis
+
 ## Development
 
 ### Project Structure

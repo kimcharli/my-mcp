@@ -1,0 +1,24 @@
+[
+  {
+    "server": "trading",
+    "type": "python",
+    "tests_found": false,
+    "tests_passed": 0,
+    "tests_failed": 0,
+    "coverage": 0,
+    "errors": [
+      "No tests directory found"
+    ]
+  },
+  {
+    "server": "integration",
+    "type": "integration",
+    "tests_found": true,
+    "tests_passed": 0,
+    "tests_failed": 0,
+    "coverage": 0,
+    "errors": [
+      "Integration tests failed: /Users/ckim/Projects/test-mlx/.venv/bin/python: No module named pytest\n"
+    ]
+  }
+]
