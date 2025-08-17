@@ -1,6 +1,8 @@
 {
+  "$comment": "MCP Server Configuration for Claude Code - Main Collection",
   "mcpServers": {
     "weather": {
+      "$comment": "Custom weather data and forecasting server (local development)",
       "command": "/Users/ckim/.pyenv/shims/uv",
       "args": [
         "--directory",
@@ -10,16 +12,19 @@
       ]
     },
     "context7": {
+      "$comment": "Documentation and code pattern lookup service by Upstash",
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp"]
     },
     "apstra": {
+      "$comment": "External Apstra network automation MCP server",
       "command": "node",
       "args": [
         "/Users/ckim/Projects/ck-apstra-mcp/dist/index.js"
       ]
     },
     "memory": {
+      "$comment": "Official MCP memory server for persistent context and conversation history",
       "command": "npx",
       "args": [
         "-y",
@@ -27,6 +32,7 @@
       ]
     },
     "sequential-thinking": {
+      "$comment": "Official MCP server for enhanced reasoning and step-by-step problem solving",
       "command": "npx",
       "args": [
         "-y",
@@ -34,10 +40,12 @@
       ]
     },
     "browsermcp": {
+      "$comment": "Web automation and browser interaction server",
       "command": "npx",
       "args": ["@browsermcp/mcp@latest"]
     },
     "gemini": {
+      "$comment": "Google Gemini AI integration server (requires GEMINI_API_KEY)",
       "command": "npx",
       "args": ["-y", "github:kimcharli/mcp-server-gemini"],
       "env": {

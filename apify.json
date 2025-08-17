@@ -1,6 +1,9 @@
 {
+  "$comment": "Apify Web Scraping Actors MCP Configuration - Specialized scraping services",
   "mcpServers": {
-    "failing-apify-web-adapter": {
+    "apify-web-scraper": {
+      "$comment": "Apify actors for web scraping: Indeed jobs, Google search, Amazon products",
+      "$note": "This configuration was previously failing - may need debugging",
       "command": "npx",
       "args": [
         "-y",
@@ -10,8 +13,17 @@
       ],
       "env": {
         "APIFY_TOKEN": "YOUR_APIFY_TOKEN_HERE"
+      },
+      "$usage": {
+        "setup": "1. Get Apify token from https://console.apify.com/account/integrations",
+        "replace": "2. Replace YOUR_APIFY_TOKEN_HERE with your actual token",
+        "test": "3. Test with: npx -y @apify/actors-mcp-server --actors apify/web-scraper"
+      },
+      "$actors": {
+        "misceres/indeed-scraper": "Job listings scraper for Indeed.com",
+        "apify/google-search-scraper": "Google search results extractor",
+        "junglee/Amazon-crawler": "Amazon product information scraper"
       }
     }
   }
 }
-      
