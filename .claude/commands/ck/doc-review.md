@@ -7,7 +7,7 @@ allowed-tools: Bash(ls:*), Bash(find:*), Bash(cat:*), Bash(git:*), Read(*), Writ
 
 - Project structure: !`find . -name "*.md" -o -name "*.rst" -o -name "*.txt" | head -20`
 - Documentation files: !`find . -name "README*" -o -name "CHANGELOG*" -o -name "CLAUDE*" -o -name "GEMINI*" -o -name "*DOC*" -o -name "docs"`
-- Recent changes: !`git diff --name-only HEAD~5..HEAD`
+- Recent changes: !`git diff --name-only HEAD~5..HEAD 2>/dev/null || git diff --name-only HEAD~3..HEAD 2>/dev/null || git diff --name-only HEAD~1..HEAD 2>/dev/null || echo "No recent commits to compare"`
 - Project info: !`cat package.json 2>/dev/null || cat pyproject.toml 2>/dev/null || cat Cargo.toml 2>/dev/null || echo "No package file found"`
 
 ## Task
