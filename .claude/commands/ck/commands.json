@@ -1,0 +1,55 @@
+{
+  "commands": {
+    "create-feature": {
+      "description": "Scaffold new feature with comprehensive structure and integration",
+      "agent": "feature-developer",
+      "category": "Development & Feature Creation",
+      "file": "create-feature.md"
+    },
+    "add-api-endpoint": {
+      "description": "Create new API endpoint with proper structure, validation, and documentation", 
+      "agent": "feature-developer",
+      "category": "Development & API Creation",
+      "file": "add-api-endpoint.md"
+    },
+    "init-project": {
+      "description": "Initialize new project with comprehensive structure, templates, and documentation",
+      "agent": "project-initializer",
+      "category": "Project Initialization & Setup",
+      "file": "init-project.md"
+    }
+  },
+  "agents": {
+    "feature-developer": {
+      "description": "Full-stack feature development specialist",
+      "context_files": [
+        "docs/REQUIREMENTS.md",
+        "docs/ARCHITECTURE.md", 
+        "docs/API_DESIGN.md"
+      ],
+      "file": "../agents/feature-developer.md"
+    },
+    "bug-fixer": {
+      "description": "Debug and fix issues specialist",
+      "context_files": [
+        "docs/ARCHITECTURE.md",
+        "docs/TESTING_STRATEGY.md"
+      ],
+      "file": "../agents/bug-fixer.md"
+    },
+    "project-initializer": {
+      "description": "Initialize new projects with standard structure and documentation",
+      "context_files": [
+        ".claude/templates/README.md",
+        ".claude/templates/package.json",
+        ".claude/templates/.env.example"
+      ],
+      "file": "../agents/project-initializer.md"
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2025-01-19",
+    "description": "Custom commands and agents for MCP server development project"
+  }
+}

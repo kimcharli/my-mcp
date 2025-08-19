@@ -12,10 +12,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - Bash command validation for Claude Code compatibility  
   - Integration testing across MCP servers
   - Command permission validation system
+- **Claude Code Specialized Agents**
+  - Feature Developer Agent: Full-stack development specialist
+  - Bug Fixer Agent: Debugging and issue resolution specialist
+  - Project Initializer Agent: Project setup and scaffolding specialist
+- **Enhanced Command System**
+  - `/ck:init-project` - Project initialization with comprehensive templates
+  - `/ck:create-feature` - Feature scaffolding with testing and documentation
+  - `/ck:add-api-endpoint` - API endpoint creation with security and validation
+- **Template System**
+  - README.md template with variable substitution
+  - package.json template for TypeScript/React projects
+  - Configuration templates (.env.example, tsconfig.json, .gitignore)
 - **Enhanced Documentation**
   - Testing integration context for AI assistants
-  - Updated README.md with testing and quality assurance section
-  - Enhanced CLAUDE.md with test-driven development support
+  - Updated README.md with agents and command documentation
+  - Enhanced CLAUDE.md with specialized agent descriptions and usage examples
 
 ### Enhanced
 - **Test Coverage**: Added 42% coverage for trading server, complete test suites for filesystem and weather servers

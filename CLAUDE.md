@@ -409,3 +409,114 @@ gemini commit --conventional --scope "mcp-integration"
 - **Context Awareness**: Deep understanding of project structure and patterns
 - **Quality Assurance**: Built-in validation and best practices enforcement
 - **Performance Optimization**: Efficient resource usage and parallel processing
+
+## Claude Code Specialized Agents
+
+This project includes dedicated AI agents for different development domains:
+
+### 🏗️ Feature Developer Agent (`.claude/agents/feature-developer.md`)
+
+**Specialization**: Full-stack feature development for TypeScript/React/Node.js MCP server projects
+
+**Context Files**:
+- `CLAUDE.md` - Project-specific patterns and integration context
+- `TESTING_STRATEGY.md` - Testing approaches and quality standards
+- `server/*/REQUIREMENTS.md` - Individual server requirements and specifications
+
+**Technology-Specific Guidelines**:
+- **TypeScript/Node.js**: Strict mode, async patterns, MCP protocol compliance
+- **React Development**: Component patterns, accessibility, state management
+- **Python Development**: Type hints, UV package manager, async patterns
+- **MCP Server Development**: Protocol specifications, validation, security
+
+**Common Tasks**:
+- API endpoint development with REST conventions
+- MCP tool creation with parameter validation
+- Frontend component development with TypeScript
+- Database integration and testing
+
+### 🐛 Bug Fixer Agent (`.claude/agents/bug-fixer.md`)
+
+**Specialization**: Debugging, issue investigation, and systematic problem resolution
+
+**Context Files**:
+- `TESTING_STRATEGY.md` - Testing approaches and debugging techniques
+- `CLAUDE.md` - Project-specific patterns and integration context
+- `server/*/REQUIREMENTS.md` - Individual server requirements and specifications
+
+**Technology-Specific Debugging**:
+- **Frontend Issues**: Browser DevTools, React DevTools, component state debugging
+- **Backend Issues**: Node.js/Python debugger, server logs, API testing
+- **MCP Server Issues**: Protocol debugging, tool execution validation
+- **System-Level Issues**: Permissions, environment variables, network connectivity
+
+**Bug Categories**:
+- Frontend: Component state, API integration, UI rendering
+- Backend: Route handlers, database queries, authentication
+- MCP Integration: Server registration, tool parameter validation
+- Infrastructure: Configuration, dependencies, deployment
+
+### 🚀 Project Initializer Agent (`.claude/agents/project-initializer.md`)
+
+**Specialization**: New project setup with comprehensive templates and tooling
+
+**Template System** (`.claude/templates/`):
+- **README.md**: Project documentation with variable substitution
+- **package.json**: Modern React/TypeScript configuration
+- **tsconfig.json**: TypeScript strict mode configuration
+- **`.env.example`**: Environment variables template
+- **`.gitignore`**: Comprehensive ignore patterns
+
+**Generated Project Structure**:
+```
+{PROJECT_NAME}/
+├── .github/workflows/    # CI/CD automation
+├── docs/                 # Project documentation
+├── src/                  # Source code organization
+├── tests/               # Testing framework
+├── package.json         # Dependencies and scripts
+├── README.md           # Generated from template
+└── ...configuration files
+```
+
+**Quality Standards**:
+- TypeScript strict mode with comprehensive type definitions
+- Testing framework setup (Jest, coverage >80%)
+- ESLint, Prettier, and development tooling
+- Docker support and CI/CD workflows
+- Comprehensive documentation structure
+
+## Enhanced Command System
+
+### Development Commands
+
+**`/ck:init-project`**: Initialize new project with comprehensive structure
+- Uses `project-initializer` agent
+- Template variable substitution system
+- Complete development environment setup
+- Quality assurance and validation
+
+**`/ck:create-feature`**: Scaffold new feature with testing and documentation  
+- Uses `feature-developer` agent
+- Requirements analysis and technical design
+- Implementation with established patterns
+- Comprehensive testing and documentation
+
+**`/ck:add-api-endpoint`**: Create API endpoint with validation and security
+- Uses `feature-developer` agent
+- REST conventions and error handling
+- Authentication and rate limiting
+- API documentation generation
+
+### Usage Examples
+
+```bash
+# Initialize a new TypeScript/React project
+claude /ck:init-project "My Dashboard" "Analytics dashboard with real-time data"
+
+# Create a comprehensive feature
+claude /ck:create-feature "User authentication with JWT tokens"
+
+# Add a new API endpoint
+claude /ck:add-api-endpoint "POST /api/reports - Generate analytics report"
+```

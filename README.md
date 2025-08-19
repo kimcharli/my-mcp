@@ -328,7 +328,38 @@ claude /ck:update-docs --sync-all --validate-links
 
 # Business rule analysis
 claude /ck:rule-engine --analyze-patterns --suggest-optimizations
+
+# Project initialization with templates
+claude /ck:init-project "My App" "Description of the project"
+
+# Feature development scaffolding
+claude /ck:create-feature "User authentication" --include-tests
+
+# API endpoint creation
+claude /ck:add-api-endpoint "POST /api/users - Create user account"
 ```
+
+### Claude Code Specialized Agents
+
+This project includes specialized AI agents for different development domains:
+
+#### 🏗️ Feature Developer Agent
+- **Purpose**: Full-stack feature development and implementation
+- **Capabilities**: Requirements analysis, technical design, implementation, testing, documentation
+- **Tech Stack**: TypeScript, React, Node.js, Python, MCP server development
+- **Usage**: Automatically activated for feature creation and API development commands
+
+#### 🐛 Bug Fixer Agent  
+- **Purpose**: Debugging, issue investigation, and resolution
+- **Capabilities**: Root cause analysis, systematic debugging, fix implementation, regression prevention
+- **Specializations**: Frontend (React/TypeScript), Backend (Node.js/Python), MCP integration, infrastructure
+- **Usage**: Activated for troubleshooting, debugging, and issue resolution tasks
+
+#### 🚀 Project Initializer Agent
+- **Purpose**: New project setup and scaffolding
+- **Capabilities**: Project structure creation, template application, development tooling setup
+- **Templates**: README.md, package.json, TypeScript config, environment files, CI/CD workflows
+- **Usage**: Activated by `/ck:init-project` command for comprehensive project initialization
 
 ### Gemini Integration Commands
 
@@ -454,7 +485,9 @@ python tests/test_command_bash_validation.py
 ```
 my-mcp/
 ├── .claude/             # Claude Code SuperClaude framework
-│   └── commands/ck/     # Custom commands (security, git, docs, etc.)
+│   ├── agents/          # Specialized AI agents (feature-developer, bug-fixer, project-initializer)
+│   ├── commands/ck/     # Custom commands (security, git, docs, feature creation)
+│   └── templates/       # Project templates (README.md, package.json, configs)
 ├── .gemini/             # Gemini AI integration
 │   └── commands/ck/     # Gemini-specific command tooling
 ├── server/              # Core MCP servers
