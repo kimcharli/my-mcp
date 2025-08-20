@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Added
+- **New MCP Server Integrations**
+  - Glyph MCP server: Tree-sitter based code structure analysis and symbol extraction
+  - IDE Integration: VS Code diagnostics and Jupyter notebook execution capabilities
+  - Enhanced third-party server support with improved configuration
 - **Comprehensive Testing Framework**
   - Multi-language test support (Python, JavaScript, Java, Rust, Go, PHP)
   - Bash command validation for Claude Code compatibility  
@@ -20,19 +24,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `/ck:init-project` - Project initialization with comprehensive templates
   - `/ck:create-feature` - Feature scaffolding with testing and documentation
   - `/ck:add-api-endpoint` - API endpoint creation with security and validation
+  - `/ck:add-mcp-server` - MCP server integration configuration helper
+  - `/ck:add-slash-command` - Claude Code slash command creation tool
 - **Template System**
   - README.md template with variable substitution
   - package.json template for TypeScript/React projects
   - Configuration templates (.env.example, tsconfig.json, .gitignore)
 - **Enhanced Documentation**
   - Testing integration context for AI assistants
-  - Updated README.md with agents and command documentation
-  - Enhanced CLAUDE.md with specialized agent descriptions and usage examples
+  - Updated README.md with new MCP server integrations (Glyph, IDE)
+  - Enhanced CLAUDE.md with new integration workflows and usage patterns
+  - Added comprehensive usage examples for code analysis and development workflows
 
 ### Enhanced
+- **MCP Server Integration**: Expanded from 7 to 9 third-party integrations with Glyph and IDE servers
+- **Development Workflows**: Enhanced code analysis capabilities with Tree-sitter parsing and real-time diagnostics
 - **Test Coverage**: Added 42% coverage for trading server, complete test suites for filesystem and weather servers
 - **Command Validation**: Fixed bash command permission issues in testcase-review and doc-review commands
 - **Quality Assurance**: Implemented comprehensive test execution framework with coverage reporting
+- **AI Assistant Context**: Updated integration guides with new server capabilities and usage patterns
 
 ## [2.1.0] - 2025-08-17
 

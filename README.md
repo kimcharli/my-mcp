@@ -32,6 +32,7 @@ This repository contains a curated collection of MCP servers designed to extend 
 - **Context7** - Documentation and code pattern lookup
 - **Gemini** - Google Gemini AI integration with specialized command tooling
 - **Glyph** - Symbol outlines and code structure extraction using Tree-sitter ([Reference](https://github.com/benmyles/glyph))
+- **IDE Integration** - VS Code diagnostics and Jupyter kernel execution
 - **Memory Server** - Persistent context and memory
 - **Sequential Thinking** - Enhanced reasoning capabilities
 
@@ -250,6 +251,7 @@ claude mcp add context7 -- npx -y @upstash/context7-mcp
 claude mcp add gemini -e GEMINI_API_KEY=your_key -- npx -y github:kimcharli/mcp-server-gemini
 claude mcp add glyph -- /Users/ckim/go/bin/glyph mcp
 claude mcp add browsermcp -- npx @browsermcp/mcp@latest
+claude mcp add ide -s user -- npx @modelcontextprotocol/server-ide
 
 # Add with user scope
 claude mcp add memory -s user -- npx -y @modelcontextprotocol/server-memory
@@ -286,6 +288,14 @@ Add to your `claude_desktop_config.json`:
       "env": {
         "GEMINI_API_KEY": "your_api_key"
       }
+    },
+    "glyph": {
+      "command": "/Users/yourusername/go/bin/glyph",
+      "args": ["mcp"]
+    },
+    "ide": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-ide"]
     }
   }
 }
@@ -339,6 +349,12 @@ claude /ck:create-feature "User authentication" --include-tests
 
 # API endpoint creation
 claude /ck:add-api-endpoint "POST /api/users - Create user account"
+
+# Add new MCP server integration command
+claude /ck:add-mcp-server "server-name" "description" --config-path custom/path
+
+# Create new slash commands
+claude /ck:add-slash-command "command-name" "description" --tools "Bash,Edit"
 ```
 
 ### Claude Code Specialized Agents
@@ -439,6 +455,14 @@ Use with Claude Code or other AI assistants:
 # Weather examples
 "What's the weather forecast for San Francisco this week?"
 "Show me historical weather data for the last month"
+
+# Code analysis with Glyph
+"Extract all function definitions from this TypeScript project"
+"Show me the class hierarchy and method signatures in the codebase"
+
+# IDE integration examples
+"Get diagnostics for this file and fix the TypeScript errors"
+"Run this code in the Jupyter notebook and show the output"
 ```
 
 ## 📊 Testing & Quality Assurance

@@ -7,7 +7,7 @@ This document provides context and guidance for AI assistants (particularly Clau
 This is a comprehensive MCP (Model Context Protocol) server collection designed for Claude Code and other AI assistants, featuring:
 
 - **4 Custom-built MCP servers** (trading, filesystem, weather, add-demo)
-- **7 Third-party integrations** (context7, gemini, browser, memory, sequential-thinking, apify, apstra)
+- **9 Third-party integrations** (context7, gemini, browser, memory, sequential-thinking, apify, apstra, glyph, ide)
 - **Production-ready configurations** with comprehensive documentation
 - **Development templates and patterns** for MCP server creation
 - **Claude Code SuperClaude framework integration** with custom commands and orchestration
@@ -155,6 +155,14 @@ This is a comprehensive MCP (Model Context Protocol) server collection designed 
 **Use When:** Network automation, infrastructure management, or datacenter operations
 **AI Context:** External integration for network infrastructure automation and management
 
+### Glyph - Code Structure Analysis
+**Use When:** Need to analyze code structure, extract function/class definitions, or understand project architecture
+**AI Context:** Tree-sitter based parsing for precise symbol extraction from source code files
+
+### IDE Integration - Development Environment
+**Use When:** Need language diagnostics, code execution, or real-time development feedback
+**AI Context:** VS Code diagnostics and Jupyter notebook execution capabilities
+
 ## AI Assistant Best Practices
 
 ### Tool Selection Strategy
@@ -169,11 +177,14 @@ This is a comprehensive MCP (Model Context Protocol) server collection designed 
    - Web interactions → Browser MCP
    - Complex reasoning → Sequential Thinking
    - Memory across sessions → Memory Server
+   - Code analysis → Glyph
+   - Development feedback → IDE Integration
 
 3. **Combine Tools** for comprehensive solutions:
    - Trading Server + Context7 for investment research
    - Filesystem Server + Memory for system maintenance tracking
    - Weather Server + Browser MCP for location-specific planning
+   - Glyph + IDE Integration for comprehensive code analysis and debugging
 
 ### Error Handling Patterns
 
@@ -236,12 +247,28 @@ except Exception as e:
 4. Provide planning recommendations
 5. Offer to monitor conditions
 
+#### Code Analysis Workflow (Glyph Integration)
+1. Extract symbol outlines from source code files
+2. Analyze project structure and dependencies  
+3. Identify functions, classes, and method signatures
+4. Generate code documentation and navigation aids
+5. Support refactoring and code understanding tasks
+
+#### IDE Integration Workflow
+1. Get language diagnostics from VS Code
+2. Identify TypeScript/JavaScript errors and warnings
+3. Execute code in Jupyter notebooks
+4. Provide real-time feedback on code quality
+5. Support interactive development workflows
+
 ## Configuration Context
 
 ### Environment Setup
 - **Trading:** Requires E*TRADE API keys or paper trading mode
 - **Weather:** Needs weather API key for data access
 - **Third-party:** Various API keys for external services
+- **Glyph:** Requires Go installation and compiled binary at `/Users/username/go/bin/glyph`
+- **IDE:** No additional setup required for VS Code integration
 
 ### File Paths
 - All servers use absolute paths in configurations
