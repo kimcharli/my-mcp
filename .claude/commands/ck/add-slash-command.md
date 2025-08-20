@@ -10,6 +10,8 @@ model: claude-3-5-sonnet-20241022
 
 Create a new Claude Code slash command with proper YAML frontmatter and markdown structure following the official Claude Code documentation.
 
+**Reference**: [Claude Code Slash Commands Documentation](https://docs.anthropic.com/en/docs/claude-code/slash-commands)
+
 ## Instructions
 
 1. **Collect Command Information:**
