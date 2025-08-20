@@ -30,6 +30,7 @@ This repository contains a curated collection of MCP servers designed to extend 
 - **Apstra** - Network automation and infrastructure management
 - **Browser MCP** - Web automation and scraping
 - **Context7** - Documentation and code pattern lookup
+- **Filesystem Server** - Official MCP server for safe file operations on macOS, Windows, and Linux ([Reference](https://modelcontextprotocol.io/quickstart/user#installing-the-filesystem-server))
 - **Gemini** - Google Gemini AI integration with specialized command tooling
 - **Glyph** - Symbol outlines and code structure extraction using Tree-sitter ([Reference](https://github.com/benmyles/glyph))
 - **IDE Integration** - VS Code diagnostics and Jupyter kernel execution
@@ -282,6 +283,10 @@ Add to your `claude_desktop_config.json`:
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp"]
     },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem"]
+    },
     "gemini": {
       "command": "npx",
       "args": ["-y", "github:kimcharli/mcp-server-gemini"],
@@ -451,6 +456,8 @@ Use with Claude Code or other AI assistants:
 "Analyze my disk usage and find the largest files"
 "Clean up my Downloads folder of files older than 30 days"
 "Find duplicate files in my Documents folder"
+"Read this configuration file and help me understand the settings"
+"Create a backup of this important document to a safe location"
 
 # Weather examples
 "What's the weather forecast for San Francisco this week?"
