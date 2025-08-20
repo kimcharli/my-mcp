@@ -17,6 +17,12 @@
       "agent": "project-initializer",
       "category": "Project Initialization & Setup",
       "file": "init-project.md"
+    },
+    "add-mcp-server": {
+      "description": "Add MCP server entry to README.md with description, URL, and installation command",
+      "agent": "feature-developer",
+      "category": "Documentation & Configuration",
+      "file": "add-mcp-server.md"
     }
   },
   "agents": {

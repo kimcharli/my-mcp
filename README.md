@@ -26,13 +26,14 @@ This repository contains a curated collection of MCP servers designed to extend 
 - **Add Demo Server** - MCP server development templates and examples
 
 ### Third-Party Integrations
-- **Context7** - Documentation and code pattern lookup
-- **Gemini** - Google Gemini AI integration with specialized command tooling
-- **Browser MCP** - Web automation and scraping
-- **Memory Server** - Persistent context and memory
-- **Sequential Thinking** - Enhanced reasoning capabilities
 - **Apify** - Web scraping and data extraction (recently fixed)
 - **Apstra** - Network automation and infrastructure management
+- **Browser MCP** - Web automation and scraping
+- **Context7** - Documentation and code pattern lookup
+- **Gemini** - Google Gemini AI integration with specialized command tooling
+- **Glyph** - Symbol outlines and code structure extraction using Tree-sitter ([Reference](https://github.com/benmyles/glyph))
+- **Memory Server** - Persistent context and memory
+- **Sequential Thinking** - Enhanced reasoning capabilities
 
 ### Advanced Features
 - **Claude Code SuperClaude Framework** - Intelligent task orchestration and custom commands
@@ -247,6 +248,7 @@ claude mcp add weather -- uv --directory /path/to/my-mcp/server/weather run weat
 # Add third-party servers
 claude mcp add context7 -- npx -y @upstash/context7-mcp
 claude mcp add gemini -e GEMINI_API_KEY=your_key -- npx -y github:kimcharli/mcp-server-gemini
+claude mcp add glyph -- /Users/ckim/go/bin/glyph mcp
 claude mcp add browsermcp -- npx @browsermcp/mcp@latest
 
 # Add with user scope
