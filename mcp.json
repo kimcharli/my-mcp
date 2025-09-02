@@ -51,6 +51,18 @@
       "env": {
         "GEMINI_API_KEY": "XXXX"
       }
-    }
+    },
+		"openmemory": {
+			"type": "stdio",
+			"command": "npx",
+			"args": [
+				"-y",
+				"openmemory"
+			],
+			"env": {
+				"OPENMEMORY_API_KEY": "XXX",
+				"CLIENT_NAME": "vscode"
+			}
+		}
   }
 }
