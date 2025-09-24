@@ -1,0 +1,85 @@
+#!/bin/bash
+# Project-specific configuration for documentation review pre-commit hook
+# Copy this file to .doc-review-config in your project root and customize as needed
+
+# Override or add file patterns for different languages
+# Format: ["language_key"]="regex_pattern"
+declare -A FILE_PATTERNS=(
+    ["python"]="(src/|scripts/|server/).*\.py$"
+    ["javascript"]="(src/|lib/|client/).*\.(js|ts|jsx|tsx)$"
+    ["rust"]="(src/|crates/).*\.rs$"
+    ["go"]="(cmd/|pkg/|internal/).*\.go$"
+    ["java"]="(src/|main/).*\.java$"
+    ["csharp"]="(src/|lib/).*\.cs$"
+    # Add custom patterns:
+    # ["kotlin"]="(src/|main/).*\.kt$"
+    # ["swift"]="(src/|Sources/).*\.swift$"
+    # ["php"]="(src/|lib/).*\.php$"
+)
+
+# Override or add documentation targets
+# Format: ["language_key"]="path/to/documentation.md"
+declare -A DOC_TARGETS=(
+    ["python"]="docs/python_modules_reference.md"
+    ["javascript"]="docs/javascript_modules_reference.md"
+    ["rust"]="docs/rust_modules_reference.md"
+    ["go"]="docs/go_modules_reference.md"
+    ["java"]="docs/java_modules_reference.md"
+    ["csharp"]="docs/csharp_modules_reference.md"
+    # Add custom targets:
+    # ["kotlin"]="docs/kotlin_modules_reference.md"
+    # ["swift"]="docs/swift_modules_reference.md"
+    # ["php"]="docs/php_modules_reference.md"
+)
+
+# Override or add language display names
+# Format: ["language_key"]="Display Name"
+declare -A LANGUAGE_NAMES=(
+    ["python"]="Python"
+    ["javascript"]="JavaScript/TypeScript"
+    ["rust"]="Rust"
+    ["go"]="Go"
+    ["java"]="Java"
+    ["csharp"]="C#"
+    # Add custom names:
+    # ["kotlin"]="Kotlin"
+    # ["swift"]="Swift"
+    # ["php"]="PHP"
+)
+
+# Example project-specific overrides:
+
+# For a Python-only project with custom paths:
+# declare -A FILE_PATTERNS=(
+#     ["python"]="(my_package/|scripts/|src/).*\.py$"
+# )
+# declare -A DOC_TARGETS=(
+#     ["python"]="README.md"  # Use README instead of separate doc file
+# )
+
+# For a monorepo with multiple services:
+# declare -A FILE_PATTERNS=(
+#     ["backend"]="(backend/|api/).*\.(py|js|ts)$"
+#     ["frontend"]="(frontend/|ui/).*\.(js|ts|jsx|tsx)$"
+#     ["mobile"]="(mobile/|app/).*\.(swift|kt|dart)$"
+# )
+# declare -A DOC_TARGETS=(
+#     ["backend"]="docs/backend_api.md"
+#     ["frontend"]="docs/frontend_components.md"
+#     ["mobile"]="docs/mobile_features.md"
+# )
+
+# For configuration files and infrastructure:
+# declare -A FILE_PATTERNS=(
+#     ["infrastructure"]="(terraform/|k8s/|docker/).*\.(tf|yaml|yml|dockerfile)$"
+#     ["config"]="(config/|settings/).*\.(json|yaml|yml|toml)$"
+# )
+# declare -A DOC_TARGETS=(
+#     ["infrastructure"]="docs/infrastructure.md"
+#     ["config"]="docs/configuration.md"
+# )
+
+# Uncomment to disable specific languages:
+# unset FILE_PATTERNS["java"]
+# unset DOC_TARGETS["java"]
+# unset LANGUAGE_NAMES["java"]

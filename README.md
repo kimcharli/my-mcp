@@ -164,6 +164,14 @@ uv run filesystem.py clean-temp --execute
 
 [📚 Complete Advanced Usage Guide](docs/ADVANCED.md)
 
+### Automated Documentation Review
+- **Pre-commit Hooks**: Automatic documentation update triggers for code changes
+- **Multi-language Support**: Python, JavaScript/TypeScript, Rust, Go, Java, C#
+- **Configurable Patterns**: Project-specific file patterns and documentation targets
+- **Claude Code Integration**: Seamless integration with document-reviewer agent
+
+[🔧 Git Hooks Setup Guide](_git/README.md)
+
 ### Multi-AI Coordination
 - **Claude + Gemini Integration**: Context sharing between AI systems
 - **Layered Architecture**: Base servers → Services → Framework → AI coordination
@@ -190,10 +198,13 @@ cd server/trading && uv run pytest tests/ --cov=. --cov-report=html -v
 my-mcp/
 ├── server/              # Core MCP servers
 │   ├── trading/         # Stock trading & market data
-│   ├── filesystem/      # macOS filesystem tools  
+│   ├── filesystem/      # macOS filesystem tools
 │   └── weather/         # Weather data service
 ├── .claude/             # Claude Code SuperClaude framework
 ├── .gemini/             # Gemini AI integration
+├── _git/                # Git hooks for automated documentation review
+│   ├── hooks/           # Pre-commit hooks
+│   └── README.md        # Setup and configuration guide
 ├── add-demo/           # MCP development examples
 ├── mcp.json           # Main MCP configuration
 └── docs/              # Detailed documentation

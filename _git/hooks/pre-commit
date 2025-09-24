@@ -1,0 +1,124 @@
+#!/bin/bash
+# Pre-commit hook: Auto-update documentation for source file changes
+
+# Configuration - can be customized per project
+DOC_CONFIG_FILE=".doc-review-config"
+
+# Load project-specific configuration if it exists
+if [ -f "$DOC_CONFIG_FILE" ]; then
+    source "$DOC_CONFIG_FILE"
+fi
+
+# Set default configuration only if not already defined
+if [ ${#FILE_PATTERNS[@]} -eq 0 ]; then
+    declare -A FILE_PATTERNS=(
+        ["python"]="(src/|scripts/|server/).*\.py$"
+        ["javascript"]="(src/|lib/|client/).*\.(js|ts|jsx|tsx)$"
+        ["rust"]="(src/|crates/).*\.rs$"
+        ["go"]="(cmd/|pkg/|internal/).*\.go$"
+        ["java"]="(src/|main/).*\.java$"
+        ["csharp"]="(src/|lib/).*\.cs$"
+    )
+fi
+
+if [ ${#DOC_TARGETS[@]} -eq 0 ]; then
+    declare -A DOC_TARGETS=(
+        ["python"]="docs/python_modules_reference.md"
+        ["javascript"]="docs/javascript_modules_reference.md"
+        ["rust"]="docs/rust_modules_reference.md"
+        ["go"]="docs/go_modules_reference.md"
+        ["java"]="docs/java_modules_reference.md"
+        ["csharp"]="docs/csharp_modules_reference.md"
+    )
+fi
+
+if [ ${#LANGUAGE_NAMES[@]} -eq 0 ]; then
+    declare -A LANGUAGE_NAMES=(
+        ["python"]="Python"
+        ["javascript"]="JavaScript/TypeScript"
+        ["rust"]="Rust"
+        ["go"]="Go"
+        ["java"]="Java"
+        ["csharp"]="C#"
+    )
+fi
+
+# Function to process files for a specific language
+process_language_files() {
+    local lang="$1"
+    local pattern="${FILE_PATTERNS[$lang]}"
+    local doc_target="${DOC_TARGETS[$lang]}"
+    local lang_name="${LANGUAGE_NAMES[$lang]}"
+
+    # Get staged files for this language
+    local changed_files=$(git diff --cached --name-only | grep -E "$pattern")
+
+    if [ -n "$changed_files" ]; then
+        echo "🔍 $lang_name files changed, updating documentation..."
+        echo "Modified files:"
+        echo "$changed_files" | sed 's/^/  - /'
+
+        # Create a summary of changes for the agent
+        local changes_summary=$(echo "$changed_files" | tr '\n' ', ' | sed 's/,$//')
+
+        # Use Claude Code to update documentation
+        echo "🤖 Invoking document-reviewer agent for auto-update..."
+
+        # Check if documentation target exists
+        if [ ! -f "$doc_target" ]; then
+            echo "⚠️  Documentation file '$doc_target' not found, skipping auto-update"
+            return 0
+        fi
+
+        # Create temporary file with change context
+        cat > "/tmp/doc_update_context_${lang}.txt" << EOF
+Files modified in this commit:
+$changed_files
+
+Please update the $lang_name modules reference ($doc_target) to reflect changes in these files:
+- Read the modified files to understand new functions, classes, or features
+- Update only the relevant sections for these specific files
+- Preserve existing documentation for unchanged modules
+- Add any new features to the "Recent Feature Updates" section if significant
+- Maintain consistent formatting and structure
+- Follow language-specific documentation conventions for $lang_name
+EOF
+
+        # Log the auto-update attempt
+        echo "$(date): $lang_name auto-update triggered for: $changes_summary" >> docs/auto_update.log
+
+        echo "📝 $lang_name documentation update context created"
+        echo "ℹ️  Run this after commit: claude-code /spawn document-reviewer \"Update $lang_name modules reference based on /tmp/doc_update_context_${lang}.txt\""
+
+        # Add the log file to the commit if it exists
+        if [ -f "docs/auto_update.log" ]; then
+            git add docs/auto_update.log
+        fi
+
+        return 1  # Indicate documentation update was triggered
+    fi
+
+    return 0  # No files changed for this language
+}
+
+# Main execution
+DOC_UPDATES_TRIGGERED=false
+
+# Process each configured language
+for lang in "${!FILE_PATTERNS[@]}"; do
+    if process_language_files "$lang"; then
+        DOC_UPDATES_TRIGGERED=true
+    fi
+done
+
+# Summary message
+if [ "$DOC_UPDATES_TRIGGERED" = true ]; then
+    echo ""
+    echo "📋 Documentation update summary:"
+    echo "   - Context files created in /tmp/doc_update_context_*.txt"
+    echo "   - Use document-reviewer agent after commit to apply updates"
+    echo "   - Updates logged in docs/auto_update.log"
+fi
+
+# Continue with normal pre-commit checks
+exit 0
