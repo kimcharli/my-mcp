@@ -157,6 +157,9 @@ uv run filesystem.py clean-temp --execute
 
 ## Advanced Features
 
+### Slash Commands
+The amp code is using `.agents/commands` for project specific slash command folder and `~/.config/amp/commands` for user specific.
+
 ### Claude Code SuperClaude Framework
 - **Custom Commands**: `/ck:security-review`, `/ck:fix-issue`, `/ck:git-commit-push`
 - **Specialized Agents**: Feature Developer, Bug Fixer, Project Initializer
