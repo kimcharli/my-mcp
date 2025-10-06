@@ -52,7 +52,16 @@
         "GEMINI_API_KEY": "XXXX"
       }
     },
-		"openmemory": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "chrome-devtools-mcp@latest",
+        " - channel=canary",
+        " - headless=true",
+        " - isolated=true"
+      ]
+    },
+    "openmemory": {
 			"type": "stdio",
 			"command": "npx",
 			"args": [

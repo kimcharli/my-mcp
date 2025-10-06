@@ -213,6 +213,21 @@ my-mcp/
 └── docs/              # Detailed documentation
 ```
 
+## MCP
+
+### chrome-dev-tools
+https://github.com/ChromeDevTools/chrome-devtools-mcp
+
+### marckitdown-mcp
+https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp
+
+### context7
+https://github.com/upstash/context7
+
+### sequential thinking mcp
+https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking
+
+
 ## Troubleshooting
 
 ### Common Issues
