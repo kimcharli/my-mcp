@@ -216,34 +216,47 @@ my-mcp/
 ## MCP
 
 ### chrome-dev-tools
+
 https://github.com/ChromeDevTools/chrome-devtools-mcp
 
 ### marckitdown-mcp
+
 https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp
 
 ### context7
+
 https://github.com/upstash/context7
 
 ### sequential thinking mcp
+
 https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking
 
+### Claude DXT (Desktop Extensions)
+
+[Anthropic page](https://www.anthropic.com/engineering/desktop-extensions)
+[DXT URL](https://www.desktopextensions.com/#installation)
+
+```sh
+npm install -g @anthropic-ai/dxt
+```
 
 ## Troubleshooting
 
 ### Common Issues
 
 1. **Network Connectivity**: Corporate firewalls may block financial APIs
+2. 
    ```bash
    # Test from different network if SSL errors occur
    ```
 
-2. **UV Installation Problems**:
+3. **UV Installation Problems**:
    ```bash
    curl -LsSf https://astral.sh/uv/install.sh | sh
    uv --version
    ```
 
-3. **MCP Connection Issues**:
+4. **MCP Connection Issues**:
    ```bash
    # Test server directly
    cd server/trading && uv run trading.py get-quote --symbol AAPL
@@ -253,7 +266,7 @@ https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking
    claude mcp remove problematic-server
    ```
 
-4. **Apify Integration** (Recently Fixed):
+5. **Apify Integration** (Recently Fixed):
    ```bash
    export APIFY_TOKEN="your_actual_token"
    claude mcp add apify-web-scraper -e APIFY_TOKEN=$APIFY_TOKEN -- npx -y @apify/actors-mcp-server
@@ -274,11 +287,17 @@ https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking
 
 ## Documentation
 
+### User Guides
 - **[Installation Guide](docs/INSTALL.md)** - Detailed setup instructions
 - **[Advanced Usage](docs/ADVANCED.md)** - SuperClaude framework and multi-AI coordination
 - **[API Reference](docs/API.md)** - Server APIs and integration patterns
 - **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues and solutions
 - **[Contributing](docs/CONTRIBUTING.md)** - Development guidelines and best practices
+
+### AI Assistant Context Files
+- **[How to Create AGENTS.md](docs/Agents-how-to.md)** - Guide for creating machine-readable build and test instructions
+- **[How to Create CLAUDE.md](docs/Claude-md-how-to.md)** - Guide for creating AI assistant project context files
+- **[AGENTS.md vs CLAUDE.md](docs/Agents-vs-Claude-md.md)** - Understanding the difference and when to use each file
 
 ## Contributing
 
