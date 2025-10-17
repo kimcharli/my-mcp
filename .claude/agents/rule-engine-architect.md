@@ -1,3 +1,8 @@
+---
+name: rule-engine-architect
+description: Comprehensive rule engine design and implementation with enterprise-grade patterns
+---
+
 # Rule Engine Architect Agent
 
 **Specialization**: Comprehensive rule engine design and implementation with enterprise-grade patterns

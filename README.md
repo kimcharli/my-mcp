@@ -15,9 +15,13 @@ A comprehensive collection of Model Context Protocol (MCP) servers for Claude Co
    ```
 
 3. **Add to Claude Code**:
+
+   file ~/.claude.json
+
    ```bash
    claude mcp add trading -- uv --directory $(pwd) run trading.py
    ```
+
 
 4. **Test**: Ask Claude "Get me a quote for AAPL stock"
 

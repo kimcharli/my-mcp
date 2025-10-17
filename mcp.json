@@ -52,6 +52,14 @@
         "GEMINI_API_KEY": "XXXX"
       }
     },
+    "glyph": {
+      "type": "stdio",
+      "command": "/Users/ckim/go/bin/glyph",
+      "args": [
+        "mcp"
+      ],
+      "env": {}
+    },
     "chrome-devtools": {
       "command": "npx",
       "args": [
@@ -60,6 +68,10 @@
         " - headless=true",
         " - isolated=true"
       ]
+    },
+    "byterover-mcp": {
+      "type": "http",
+      "url": "https://mcp.byterover.dev/v2/mcp"
     },
     "openmemory": {
 			"type": "stdio",
