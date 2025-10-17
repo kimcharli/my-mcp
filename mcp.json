@@ -16,7 +16,7 @@
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp"]
     },
-    "apstra": {
+    "ck-apstra-mcp": {
       "$comment": "External Apstra network automation MCP server",
       "command": "node",
       "args": [
