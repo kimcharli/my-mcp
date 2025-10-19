@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "networkx": {
+      "command": "node",
+      "args": ["/Users/ckim/Projects/networkx-mcp/index.js"]
+    }
+  }
+}

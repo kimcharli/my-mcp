@@ -34,6 +34,7 @@ A comprehensive collection of Model Context Protocol (MCP) servers for Claude Co
 | **🏦 Trading** | Stock market data & paper trading | ✅ Production | `uv run cli.py quote AAPL` |
 | **🗂️ Filesystem** | macOS disk analysis & cleanup | ✅ Production | `uv run filesystem.py disk-usage` |
 | **🌤️ Weather** | Weather data & forecasting | ✅ Beta | Weather queries via Claude |
+| **🕸️ NetworkX** | Graph analysis & visualization | ✅ Beta | `cd server/networkx-mcp && npm install && node index.js` |
 | **🛠️ Add Demo** | MCP development templates | ✅ Examples | Development reference |
 
 ### Third-Party Integrations
@@ -71,6 +72,9 @@ cd server/filesystem && uv add -e .
 
 # Weather server
 cd server/weather && uv add -e .
+
+# NetworkX server
+cd server/networkx-mcp && npm install
 ```
 
 ## Configuration
@@ -100,6 +104,7 @@ APIFY_TOKEN=your_apify_token
 claude mcp add trading -- uv --directory /path/to/my-mcp/server/trading run trading.py
 claude mcp add filesystem -- uv --directory /path/to/my-mcp/server/filesystem run filesystem.py
 claude mcp add weather -- uv --directory /path/to/my-mcp/server/weather run weather.py
+claude mcp add networkx -- node /path/to/my-mcp/server/networkx-mcp/index.js
 
 # Third-party servers
 claude mcp add context7 -- npx -y @upstash/context7-mcp
@@ -206,7 +211,8 @@ my-mcp/
 ├── server/              # Core MCP servers
 │   ├── trading/         # Stock trading & market data
 │   ├── filesystem/      # macOS filesystem tools
-│   └── weather/         # Weather data service
+│   ├── weather/         # Weather data service
+│   └── networkx-mcp/    # Graph analysis & visualization
 ├── .claude/             # Claude Code SuperClaude framework
 ├── .gemini/             # Gemini AI integration
 ├── _git/                # Git hooks for automated documentation review
