@@ -298,6 +298,9 @@ npm install -g @anthropic-ai/dxt
 - **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues and solutions
 - **[Contributing](docs/CONTRIBUTING.md)** - Development guidelines and best practices
 
+### Architecture
+- **[Hexagonal Architecture Guide](docs/architecture/hexagonal/README.md)** - A guide to generating clean, maintainable code using the hexagonal architecture pattern with AI.
+
 ### AI Assistant Context Files
 - **[How to Create AGENTS.md](docs/Agents-how-to.md)** - Guide for creating machine-readable build and test instructions
 - **[How to Create CLAUDE.md](docs/Claude-md-how-to.md)** - Guide for creating AI assistant project context files
