@@ -189,6 +189,9 @@ The amp code is using `.agents/commands` for project specific slash command fold
 - **Layered Architecture**: Base servers → Services → Framework → AI coordination
 - **Intelligent Task Orchestration**: Automated workflow management
 
+### Claude Skills
+- **[Python NetworkX Skill](.claude/skills/python-networkx-skill/README.md)** - A guide for writing Python code using the NetworkX library for graph analysis and visualization.
+
 ## Testing & Quality Assurance
 
 **Test Coverage**:
