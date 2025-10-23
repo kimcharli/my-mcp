@@ -7,6 +7,7 @@ A comprehensive collection of Model Context Protocol (MCP) servers for Claude Co
 1. **Prerequisites**: Python 3.10+, [uv](https://github.com/astral-sh/uv), [Claude Code](https://claude.ai/code)
 
 2. **Clone and setup**:
+
    ```bash
    git clone <repository-url>
    cd my-mcp/server/trading
@@ -21,7 +22,6 @@ A comprehensive collection of Model Context Protocol (MCP) servers for Claude Co
    ```bash
    claude mcp add trading -- uv --directory $(pwd) run trading.py
    ```
-
 
 4. **Test**: Ask Claude "Get me a quote for AAPL stock"
 
@@ -84,6 +84,7 @@ cd server/networkx-mcp && npm install
 Create `.env` files for servers requiring API access:
 
 **Trading Server** (`server/trading/.env`):
+
 ```bash
 ETRADE_CONSUMER_KEY=your_consumer_key
 ETRADE_CONSUMER_SECRET=your_consumer_secret
@@ -92,6 +93,7 @@ TRADING_MODE=paper
 ```
 
 **Third-party Services**:
+
 ```bash
 GEMINI_API_KEY=your_gemini_api_key
 APIFY_TOKEN=your_apify_token
@@ -115,6 +117,7 @@ claude mcp add memory -s user -- npx -y @modelcontextprotocol/server-memory
 ### 3. Claude Desktop (Alternative)
 
 Add to `claude_desktop_config.json`:
+
 ```json
 {
   "mcpServers": {
@@ -133,6 +136,7 @@ Add to `claude_desktop_config.json`:
 ## Key Usage Examples
 
 ### Trading Operations
+
 ```bash
 # Set up paper account
 uv run cli.py setup --cash 100000
@@ -146,6 +150,7 @@ uv run cli.py portfolio
 **With Claude**: *"Get me current prices for Apple and Microsoft, then buy 10 shares of Apple"*
 
 ### Filesystem Management
+
 ```bash
 # Analyze disk usage
 uv run filesystem.py disk-usage
@@ -159,6 +164,7 @@ uv run filesystem.py clean-temp --execute
 **With Claude**: *"Analyze my disk usage and clean up temporary files older than 30 days"*
 
 ### AI Assistant Integration
+
 **Trading**: *"Show me my portfolio performance and suggest rebalancing"*
 **Filesystem**: *"Find the largest files on my system and help me free up space"*
 **Weather**: *"What's the weather forecast for San Francisco this week?"*
@@ -167,9 +173,11 @@ uv run filesystem.py clean-temp --execute
 ## Advanced Features
 
 ### Slash Commands
+
 The amp code is using `.agents/commands` for project specific slash command folder and `~/.config/amp/commands` for user specific.
 
 ### Claude Code SuperClaude Framework
+
 - **Custom Commands**: `/ck:security-review`, `/ck:fix-issue`, `/ck:git-commit-push`
 - **Specialized Agents**: Feature Developer, Bug Fixer, Project Initializer
 - **Smart Automation**: Conventional commits, test generation, documentation sync
@@ -177,6 +185,7 @@ The amp code is using `.agents/commands` for project specific slash command fold
 [📚 Complete Advanced Usage Guide](docs/ADVANCED.md)
 
 ### Automated Documentation Review
+
 - **Pre-commit Hooks**: Automatic documentation update triggers for code changes
 - **Multi-language Support**: Python, JavaScript/TypeScript, Rust, Go, Java, C#
 - **Configurable Patterns**: Project-specific file patterns and documentation targets
@@ -185,16 +194,19 @@ The amp code is using `.agents/commands` for project specific slash command fold
 [🔧 Git Hooks Setup Guide](_git/README.md)
 
 ### Multi-AI Coordination
+
 - **Claude + Gemini Integration**: Context sharing between AI systems
 - **Layered Architecture**: Base servers → Services → Framework → AI coordination
 - **Intelligent Task Orchestration**: Automated workflow management
 
 ### Claude Skills
+
 - **[Python NetworkX Skill](.claude/skills/python-networkx-skill/README.md)** - A guide for writing Python code using the NetworkX library for graph analysis and visualization.
 
 ## Testing & Quality Assurance
 
 **Test Coverage**:
+
 - Trading Server: 42% coverage, 34+ unit tests
 - Filesystem Server: Complete safety validation
 - Integration Tests: Cross-server workflow validation
@@ -230,19 +242,25 @@ my-mcp/
 
 ### chrome-dev-tools
 
-https://github.com/ChromeDevTools/chrome-devtools-mcp
+<https://github.com/ChromeDevTools/chrome-devtools-mcp>
+
+claude code
+
+```sh
+claude mcp add chrome-dev-tools npx chrome-devtools-mcp
+```
 
 ### marckitdown-mcp
 
-https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp
+<https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp>
 
 ### context7
 
-https://github.com/upstash/context7
+<https://github.com/upstash/context7>
 
 ### sequential thinking mcp
 
-https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking
+<https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking>
 
 ### Claude DXT (Desktop Extensions)
 
@@ -258,18 +276,21 @@ npm install -g @anthropic-ai/dxt
 ### Common Issues
 
 1. **Network Connectivity**: Corporate firewalls may block financial APIs
-2. 
+2.
+
    ```bash
    # Test from different network if SSL errors occur
    ```
 
 3. **UV Installation Problems**:
+
    ```bash
    curl -LsSf https://astral.sh/uv/install.sh | sh
    uv --version
    ```
 
 4. **MCP Connection Issues**:
+
    ```bash
    # Test server directly
    cd server/trading && uv run trading.py get-quote --symbol AAPL
@@ -280,6 +301,7 @@ npm install -g @anthropic-ai/dxt
    ```
 
 5. **Apify Integration** (Recently Fixed):
+
    ```bash
    export APIFY_TOKEN="your_actual_token"
    claude mcp add apify-web-scraper -e APIFY_TOKEN=$APIFY_TOKEN -- npx -y @apify/actors-mcp-server
@@ -301,6 +323,7 @@ npm install -g @anthropic-ai/dxt
 ## Documentation
 
 ### User Guides
+
 - **[Installation Guide](docs/INSTALL.md)** - Detailed setup instructions
 - **[Advanced Usage](docs/ADVANCED.md)** - SuperClaude framework and multi-AI coordination
 - **[API Reference](docs/API.md)** - Server APIs and integration patterns
@@ -308,9 +331,11 @@ npm install -g @anthropic-ai/dxt
 - **[Contributing](docs/CONTRIBUTING.md)** - Development guidelines and best practices
 
 ### Architecture
+
 - **[Hexagonal Architecture Guide](docs/architecture/hexagonal/README.md)** - A guide to generating clean, maintainable code using the hexagonal architecture pattern with AI.
 
 ### AI Assistant Context Files
+
 - **[How to Create AGENTS.md](docs/Agents-how-to.md)** - Guide for creating machine-readable build and test instructions
 - **[How to Create CLAUDE.md](docs/Claude-md-how-to.md)** - Guide for creating AI assistant project context files
 - **[AGENTS.md vs CLAUDE.md](docs/Agents-vs-Claude-md.md)** - Understanding the difference and when to use each file
