@@ -221,7 +221,7 @@ cd server/trading && uv run pytest tests/ --cov=. --cov-report=html -v
 
 ## Project Structure
 
-```
+```text
 my-mcp/
 ├── server/              # Core MCP servers
 │   ├── trading/         # Stock trading & market data
@@ -276,31 +276,30 @@ npm install -g @anthropic-ai/dxt
 ### Common Issues
 
 1. **Network Connectivity**: Corporate firewalls may block financial APIs
-2.
 
    ```bash
    # Test from different network if SSL errors occur
    ```
 
-3. **UV Installation Problems**:
+2. **UV Installation Problems**:
 
    ```bash
    curl -LsSf https://astral.sh/uv/install.sh | sh
    uv --version
    ```
 
-4. **MCP Connection Issues**:
+3. **MCP Connection Issues**:
 
    ```bash
    # Test server directly
    cd server/trading && uv run trading.py get-quote --symbol AAPL
-   
+
    # Reset Claude Code MCP
    claude mcp list
    claude mcp remove problematic-server
    ```
 
-5. **Apify Integration** (Recently Fixed):
+4. **Apify Integration** (Recently Fixed):
 
    ```bash
    export APIFY_TOKEN="your_actual_token"

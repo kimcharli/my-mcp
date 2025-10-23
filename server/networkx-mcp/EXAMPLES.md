@@ -7,7 +7,9 @@
 **Prompt**: "Create a social network graph with these friendships: Alice-Bob, Bob-Charlie, Charlie-David, David-Alice, Alice-Charlie, Bob-David. Then calculate who has the most connections."
 
 The server will:
+
 1. Use `create_graph` to build the network
+
 2. Use `centrality` with measure="degree" to find the most connected person
 
 ### Example 2: Find Shortest Path
@@ -21,11 +23,17 @@ The server will use `shortest_path` to find the minimum number of hops.
 ### Example 3: Weighted Shortest Path
 
 **Prompt**: "Given these routes with distances in miles:
+
 - SF to LA: 380
+
 - LA to Phoenix: 370
+
 - Phoenix to Denver: 600
+
 - SF to Denver: 950
+
 - Denver to Chicago: 920
+
 - Chicago to NYC: 790
 
 What's the shortest route by distance from SF to NYC?"
@@ -70,7 +78,7 @@ Uses `minimum_spanning_tree` to find the optimal solution.
 
 ### Example 9: Clustering Coefficient
 
-**Prompt**: "Calculate the clustering coefficient for this friendship network: 
+**Prompt**: "Calculate the clustering coefficient for this friendship network:
 A-B, A-C, A-D, B-C, B-D, C-D, D-E, D-F, E-F
 
 How tightly knit are the friend groups?"
@@ -101,9 +109,13 @@ Creates a directed graph with arrows showing relationships.
 ### Example 13: Multi-Step Analysis
 
 **Prompt**: "Create a random social network with 30 people and 20% connection probability. Then:
+
 1. Check if it's connected
+
 2. Find the person with highest betweenness centrality
+
 3. Identify communities
+
 4. Calculate average clustering coefficient"
 
 ### Example 14: Comparison Analysis
@@ -154,19 +166,32 @@ Uses `execute_custom` with custom NetworkX code.
 
 ## Tips for Best Results
 
+
 1. **Be specific about graph type**: Mention if directed/undirected, weighted/unweighted
+
 2. **Provide complete data**: Include all nodes and edges
+
 3. **State your goal clearly**: Analysis, visualization, or generation
+
 4. **Use node names consistently**: Keep naming simple (A, B, C or names)
+
 5. **Ask for comparisons**: Compare multiple networks or metrics
+
 6. **Request explanations**: Ask what metrics mean in your context
 
 ## Common NetworkX Concepts
 
+
 - **Degree**: Number of connections a node has
+
 - **Path**: Sequence of edges connecting two nodes
+
 - **Centrality**: Measures of node importance
+
 - **Clustering**: How interconnected a node's neighbors are
+
 - **Community**: Dense groups of nodes with sparse connections between groups
+
 - **Connected**: All nodes can reach each other through paths
+
 - **Spanning Tree**: Subset of edges connecting all nodes without cycles

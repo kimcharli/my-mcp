@@ -1,0 +1,19 @@
+{
+  "extends": "markdownlint/style/relaxed",
+  "line-length": {
+    "line_length": 120,
+    "heading_line_length": 120,
+    "code_line_length": 120
+  },
+  "blanks-around-headings": true,
+  "blanks-around-lists": true,
+  "blanks-around-fences": true,
+  "fenced-code-language": false,
+  "no-duplicate-heading": false,
+  "no-emphasis-as-heading": false,
+  "single-trailing-newline": true,
+  "no-hard-tabs": true,
+  "no-trailing-spaces": true,
+  "no-multiple-blanks": true,
+  "ol-prefix": false
+}
