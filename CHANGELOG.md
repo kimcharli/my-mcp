@@ -80,6 +80,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - **AI Assistant Context**: Updated integration guides with new server capabilities and usage patterns
 
+### Removed
+
+- **Filesystem MCP**: Removed the old filesystem MCP from the configuration. This is because Claude now natively supports filesystem operations, making the old MCP redundant.
+
 ## [2.1.0] - 2025-08-17
 
 ### Added
