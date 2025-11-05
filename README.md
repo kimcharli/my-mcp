@@ -295,6 +295,7 @@ npx @openmemory/install --client claude --env OPENMEMORY_API_KEY=om-xdd*********
 ```
 
 Claude Desktop
+
 ```sh
 npx @openmemory/install --client claude --env OPENMEMORY_API_KEY=om-xdd********************ey8v
 ```
