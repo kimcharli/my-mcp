@@ -274,7 +274,7 @@ CLI command
 npx @openmemory/install --client claude --env OPENMEMORY_API_KEY=om-xdd********************ey8v
 ```
 
-## Public MCP Servers
+## Third Party MCP Servers
 
 ### OpenMemory
 
