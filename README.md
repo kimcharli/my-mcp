@@ -17,7 +17,7 @@ A comprehensive collection of Model Context Protocol (MCP) servers for Claude Co
 
 3. **Add to Claude Code**:
 
-   file ~/.claude.json
+   file `~/.claude.json`
 
    ```bash
    claude mcp add trading -- uv --directory $(pwd) run trading.py
@@ -101,6 +101,8 @@ APIFY_TOKEN=your_apify_token
 
 ### 2. Claude Code Registration
 
+File: `~/.claude.json`
+
 ```bash
 # Custom servers
 claude mcp add trading -- uv --directory /path/to/my-mcp/server/trading run trading.py
@@ -116,7 +118,7 @@ claude mcp add memory -s user -- npx -y @modelcontextprotocol/server-memory
 
 ### 3. Claude Desktop (Alternative)
 
-Add to `claude_desktop_config.json`:
+Add to `~/Library/Application\ Support/Claude/claude_desktop_config.json `:
 
 ```json
 {
@@ -238,7 +240,66 @@ my-mcp/
 └── docs/              # Detailed documentation
 ```
 
-## MCP
+
+## MCP Server setup
+
+### gemini cli
+
+file `~/.gemini/settings.json`
+
+```sh
+gemini mcp add ...
+```
+
+### gemini Web App doesn't support MCP
+
+### Claude Code
+
+file `~/.claude.json`
+
+
+Cli Command
+
+```bash
+claude mcp add trading -- uv --directory $(pwd) run trading.py
+```
+
+### Claude Desktop
+
+file `~/Library/Application\ Support/Claude/claude_desktop_config.json`
+
+CLI command
+
+```sh
+npx @openmemory/install --client claude --env OPENMEMORY_API_KEY=om-xdd********************ey8v
+```
+
+## Public MCP Servers
+
+### OpenMemory
+
+[OpenMemory Dashboard](https://app.openmemory.dev/dashboard)
+
+```json
+    "openmemory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "openmemory"
+      ],
+      "env": {
+        "OPENMEMORY_API_KEY": "om-XXXXXXX",
+        "CLIENT_NAME": "claude"
+      }
+    }
+```
+
+Claude Desktop
+```sh
+npx @openmemory/install --client claude --env OPENMEMORY_API_KEY=om-xdd********************ey8v
+```
+
+
 
 ### chrome-dev-tools
 
