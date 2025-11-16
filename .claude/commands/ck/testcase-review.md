@@ -21,7 +21,7 @@ allowed-tools: Bash(ls:*), Bash(find:*), Bash(cat:*), Bash(git status:*), Bash(n
 - Project files: !`ls -la`
 - Test files: !`find . -name "*test*" -o -name "*spec*"`
 - Python config: !`find . -maxdepth 2 -name "pyproject.toml" -type f`
-- JavaScript config: !`find . -maxdepth 2 -name "package.json" -type f`
+- JavaScript config: !`find . -maxdepth 2 -name "package.json" -type f`  
 - Java config: !`find . -maxdepth 2 -name "pom.xml" -o -name "build.gradle" -type f`
 - Rust config: !`find . -maxdepth 2 -name "Cargo.toml" -type f`
 - Go config: !`find . -maxdepth 2 -name "go.mod" -type f`

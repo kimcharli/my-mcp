@@ -1,0 +1,136 @@
+---
+command: "/debug-frontend"
+category: "Debug & Troubleshooting"
+purpose: "Specialized frontend debugging for React/TypeScript blank pages and compilation issues"
+wave-enabled: false
+performance-profile: "standard"
+---
+
+# Frontend Debug Command
+
+Specialized debugging command for Tauri + React + TypeScript applications, focusing on blank page issues and compilation errors.
+
+## Usage
+
+```bash
+/debug-frontend [issue-type] [--flags]
+```
+
+## Issue Types
+
+- `blank-page` - White screen or empty page debugging
+- `compilation` - TypeScript compilation errors
+- `integration` - Frontend-backend service integration issues
+- `auth-context` - Authentication context hanging
+- `full-diagnostic` - Complete systematic debugging workflow
+
+## Examples
+
+```bash
+# Blank page issue
+/debug-frontend blank-page
+
+# TypeScript compilation problems
+/debug-frontend compilation
+
+# Complete diagnostic workflow
+/debug-frontend full-diagnostic --verbose
+
+# Authentication context issues
+/debug-frontend auth-context --fix
+```
+
+## Auto-Activation
+
+This command auto-activates when:
+- Keywords detected: "blank page", "white screen", "not rendering", "TypeScript error"
+- Project type: React + TypeScript + Tauri detected
+- Error context: Build failures, rendering issues
+
+## Debugging Workflow
+
+### Phase 1: TypeScript Validation (CRITICAL FIRST STEP)
+```bash
+# Check compilation - MUST PASS before UI testing
+npm run lint
+
+# If errors found:
+# - Fix all TypeScript errors first
+# - Verify imports/exports
+# - Check interface definitions
+```
+
+### Phase 2: Development Server Health
+```bash
+# Start with debug logging
+RUST_LOG=debug npm run tauri:dev
+
+# Test server response
+curl -s http://localhost:1420 | head -20
+```
+
+### Phase 3: Component Isolation
+```typescript
+// Replace complex App with minimal test
+const TestComponent = () => {
+  console.log('Test component rendered');
+  return <div>React is working</div>;
+};
+```
+
+### Phase 4: Progressive Testing
+- Start with minimal component
+- Add complexity incrementally
+- Identify exact point of failure
+- Apply targeted fixes
+
+## Common Patterns & Solutions
+
+### "Blank Page, No Console Errors"
+1. Check if React DevTools shows component tree
+2. Verify DOM mounting with `<div id="root">`
+3. Test with minimal component
+4. Check for JavaScript execution issues
+
+### "TypeScript Compilation Blocks Bundle"
+1. Run `npm run lint` for detailed errors
+2. Fix missing type exports
+3. Resolve import/export mismatches
+4. Update interface definitions
+
+### "Authentication Context Hanging"
+1. Add timeout fallbacks to auth providers
+2. Test auth services independently
+3. Add loading state debugging
+4. Implement graceful degradation
+
+## Integration with Core Framework
+
+- **Auto-Persona**: Frontend persona activation
+- **MCP Integration**: Magic (UI analysis), Sequential (systematic debugging)
+- **Tool Orchestration**: [Read, Edit, Bash, Grep, MultiEdit]
+- **Quality Gates**: TypeScript validation, component testing, integration verification
+
+## Emergency Recovery
+
+```bash
+# Quick reset sequence
+npm run clean
+rm -rf node_modules package-lock.json
+npm install
+npm run lint
+npm run tauri:dev
+```
+
+## Success Criteria
+
+- ✅ TypeScript compilation passes (required)
+- ✅ Development server responds (HTTP 200)
+- ✅ React components render correctly
+- ✅ No console errors or warnings
+- ✅ All functionality works as expected
+- ✅ Root cause documented for future reference
+
+---
+
+**Core Principle**: Always verify TypeScript compilation BEFORE testing UI. Most React blank pages stem from compilation failures preventing bundle creation.

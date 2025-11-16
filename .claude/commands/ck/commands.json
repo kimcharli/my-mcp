@@ -17,154 +17,39 @@
       "agent": "project-initializer",
       "category": "Project Initialization & Setup",
       "file": "init-project.md"
-    },
-    "fix-issue": {
-      "description": "Comprehensive issue resolution with debugging, root cause analysis, and quality assurance",
-      "agent": "bug-fixer",
-      "category": "Development & Bug Fixing",
-      "file": "fix-issue.md"
-    },
-    "git-commit-push": {
-      "description": "Intelligent git workflow with conventional commits, quality checks, and smart push strategy",
-      "agent": "feature-developer",
-      "category": "Version Control & Deployment",
-      "file": "git-commit-push.md"
-    },
-    "code-review": {
-      "description": "Comprehensive code review with project structure validation and security analysis",
-      "agent": "bug-fixer",
-      "category": "Quality & Code Review",
-      "file": "code-review.md"
-    },
-    "security-review": {
-      "description": "Comprehensive security vulnerability assessment and recommendations",
-      "agent": "bug-fixer",
-      "category": "Security & Code Review",
-      "file": "security-review.md"
-    },
-    "doc-review": {
-      "description": "Intelligent documentation management with context-aware updates and smart reorganization",
-      "agent": "feature-developer",
-      "category": "Documentation & Quality",
-      "file": "doc-review.md"
-    },
-    "testcase-review": {
-      "description": "Multi-language test case builder and executor for comprehensive testing",
-      "agent": "bug-fixer",
-      "category": "Testing & Quality Assurance",
-      "file": "testcase-review.md"
-    },
-    "rule-engine": {
-      "description": "Create and manage a comprehensive rule engine with subject-condition-action patterns",
-      "agent": "feature-developer",
-      "category": "Development & Architecture",
-      "file": "rule-engine.md"
-    },
-    "add-mcp-server-in-readme": {
-      "description": "Add MCP server entry to README.md with description, URL, and installation command",
-      "agent": "feature-developer",
-      "category": "Documentation & Configuration",
-      "file": "add-mcp-server-in-readme.md"
-    },
-    "add-slash-command": {
-      "description": "Create a new Claude Code slash command following official documentation structure",
-      "agent": "feature-developer",
-      "category": "Development & Tool Creation",
-      "file": "add-slash-command.md"
-    },
-    "validate-config": {
-      "description": "Comprehensive configuration validation and environment setup verification",
-      "agent": "bug-fixer",
-      "category": "Configuration & Validation",
-      "file": "validate-config.md"
-    },
-    "deploy": {
-      "description": "Intelligent deployment with environment validation, health checks, and rollback capabilities",
-      "agent": "feature-developer",
-      "category": "Deployment & Operations",
-      "file": "deploy.md"
     }
   },
   "agents": {
     "feature-developer": {
-      "description": "Full-stack feature development and deployment specialist",
+      "description": "Full-stack feature development specialist",
       "context_files": [
         "docs/REQUIREMENTS.md",
         "docs/ARCHITECTURE.md", 
-        "docs/API_DESIGN.md",
-        "docs/DEVELOPMENT.md",
-        "CLAUDE.md",
-        "TESTING_STRATEGY.md"
+        "docs/API_DESIGN.md"
       ],
       "file": "../agents/feature-developer.md"
     },
     "bug-fixer": {
-      "description": "Debug, fix issues, quality assurance, and security specialist",
+      "description": "Debug and fix issues specialist",
       "context_files": [
         "docs/ARCHITECTURE.md",
-        "docs/TESTING_STRATEGY.md",
-        "docs/TROUBLESHOOTING.md",
-        "docs/DEVELOPMENT.md",
-        "CLAUDE.md"
+        "docs/TESTING_STRATEGY.md"
       ],
       "file": "../agents/bug-fixer.md"
     },
     "project-initializer": {
-      "description": "Initialize new projects with standard structure and comprehensive documentation",
+      "description": "Initialize new projects with standard structure and documentation",
       "context_files": [
         ".claude/templates/README.md",
         ".claude/templates/package.json",
-        ".claude/templates/.env.example",
-        "docs/DEVELOPMENT.md",
-        "docs/CONTRIBUTING.md"
+        ".claude/templates/.env.example"
       ],
       "file": "../agents/project-initializer.md"
     }
   },
-  "categories": {
-    "Development & Feature Creation": ["create-feature", "add-api-endpoint", "rule-engine"],
-    "Development & Bug Fixing": ["fix-issue"],
-    "Development & Tool Creation": ["add-slash-command"],
-    "Development & Architecture": ["rule-engine"],
-    "Project Initialization & Setup": ["init-project"],
-    "Version Control & Deployment": ["git-commit-push"],
-    "Deployment & Operations": ["deploy"],
-    "Quality & Code Review": ["code-review"],
-    "Security & Code Review": ["security-review"],
-    "Documentation & Quality": ["doc-review"],
-    "Documentation & Configuration": ["add-mcp-server-in-readme"],
-    "Testing & Quality Assurance": ["testcase-review"],
-    "Configuration & Validation": ["validate-config"]
-  },
-  "workflows": {
-    "full-feature-development": {
-      "description": "Complete feature development lifecycle",
-      "commands": ["create-feature", "testcase-review", "code-review", "doc-review", "git-commit-push"],
-      "agent": "feature-developer"
-    },
-    "bug-resolution": {
-      "description": "Comprehensive bug fixing and quality assurance",
-      "commands": ["fix-issue", "testcase-review", "security-review", "git-commit-push"],
-      "agent": "bug-fixer"
-    },
-    "project-setup": {
-      "description": "Complete project initialization and configuration",
-      "commands": ["init-project", "validate-config", "doc-review", "git-commit-push"],
-      "agent": "project-initializer"
-    },
-    "deployment-pipeline": {
-      "description": "Full deployment with validation and monitoring",
-      "commands": ["validate-config", "testcase-review", "security-review", "deploy"],
-      "agent": "feature-developer"
-    }
-  },
   "metadata": {
-    "version": "2.1.0",
+    "version": "1.0.0",
     "created": "2025-01-19",
-    "updated": "2025-08-20",
-    "description": "Enhanced custom commands and agents for MCP server development project with comprehensive debugging, quality assurance, deployment, and intelligent workflows",
-    "total_commands": 14,
-    "command_categories": 13,
-    "specialized_agents": 3
+    "description": "Custom commands and agents for MCP server development project"
   }
 }

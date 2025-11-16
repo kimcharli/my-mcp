@@ -300,6 +300,10 @@ Claude Desktop
 npx @openmemory/install --client claude --env OPENMEMORY_API_KEY=om-xdd********************ey8v
 ```
 
+### GitHub MCP
+
+https://github.com/mcp/github/github-mcp-server
+https://api.githubcopilot.com/mcp/
 
 
 ### chrome-dev-tools
